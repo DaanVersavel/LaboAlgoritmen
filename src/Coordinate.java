@@ -1,0 +1,24 @@
+public class Coordinate {
+    private int x;
+    private int y;
+
+    public Coordinate (int x, int y)  {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getXCoordinate() {
+        return x;
+    }
+    public int getYCoordinate() {
+        return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+}
