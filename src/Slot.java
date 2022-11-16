@@ -1,13 +1,18 @@
 import java.util.Stack;
 
 public class Slot {
+    private int id;
     private int x;
     private int y;
-    private Stack<Integer> stack= new Stack<>() ;
+    private int maxHeight;
+    private Stack<Integer> stack;
 
-    Slot(int x, int y) {
-    this.x = x;
-    this.y = y;
+    // Wordt eigenlijk niet gebruikt, bij het in lezen van de input worden de
+    // variabelen van een slot direct ingevuld
+    Slot(int x, int y, int id) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {

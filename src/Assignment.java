@@ -19,11 +19,11 @@ public class Assignment {
         this.container_id = container_id;
     }
 
-    public ArrayList<Integer> getSlot_id() {
+    public ArrayList<Integer> getSlot_ids() {
         return slot_id;
     }
 
-    public void setSlot_id(ArrayList<Integer> slot_id) {
-        this.slot_id = slot_id;
+    public void setSlot_id(ArrayList<Integer> slot_ids) {
+        this.slot_id = slot_ids;
     }
 }

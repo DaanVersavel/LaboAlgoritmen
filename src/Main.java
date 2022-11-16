@@ -3,6 +3,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Main {
     public static InputData readFile(String path){
@@ -20,5 +21,8 @@ public class Main {
         InputData inputdata= readFile("src/input/terminal_4_3.json");
         ContainerField containers = new ContainerField(inputdata.getContainers(),inputdata.getSlots(),inputdata.getAssignments());
         System.out.println();
+        ArrayList<Integer> list = new ArrayList<Integer>();
+                list.add(2);
+        System.out.println(containers.moveContainers(4,list ));
     }
 }

@@ -14,6 +14,10 @@ public class InputData {
 
 
     public ArrayList<Slot> getSlots() {
+        for(Slot slot : slots) {
+            slot.initialiseStack();
+            slot.initialiseMaxHeight();
+        }
         return slots;
     }
 
