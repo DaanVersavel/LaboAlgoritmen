@@ -15,6 +15,12 @@ public class Slot {
         this.y = y;
     }
 
+    // Doordat we de constructor eigenlijk niet gebruiken wordt de stack nooit geïnitialiseerd.
+    public void initialiseStack() {
+        this.stack = new Stack<Integer>();
+    }
+    public void initialiseMaxHeight() { this.maxHeight = 3; }
+
     public int getX() {
         return x;
     }
@@ -31,11 +37,33 @@ public class Slot {
         this.y = y;
     }
 
-    public void addContainer(int c) {
-        stack.push(c);
-    }
+    public void addContainer(int containerId) { stack.push(containerId); }
 
     public int getTopContainer() {
+        return stack.peek();
+    }
+
+    public int removeTopContainer() {
         return stack.pop();
+    }
+
+    public int getMaxHeight() { return maxHeight; }
+
+    public Stack<Integer> getStack() { return stack; }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMaxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
+    }
+
+    public void setStack(Stack<Integer> stack) {
+        this.stack = stack;
     }
 }

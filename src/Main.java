@@ -30,11 +30,24 @@ public class Main {
         return target;
     }
     public static void main(String[] args) {
-        InputData inputdata= readFile("src/input/terminal_4_3.json");
-        ContainerField containers = new ContainerField(inputdata.getContainers(),inputdata.getSlots(),inputdata.getAssignments());
-        System.out.println();
+        InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
+        Target target = readFileTarget("");
+        inputdata.initAssignment();
+        inputdata.modifieInputData();
+        ContainerField containerField = new ContainerField(inputdata.getContainers(),inputdata.getSlots(),inputdata.getAssignments());
+
+        ArrayList<Crane> cranes = new ArrayList<>(inputdata.getCranes());
+
+        // methode voor verdelen
+
+        // container per container verplaatsen
+        //kraan1.moveContainer();
+
+        /*System.out.println();
         ArrayList<Integer> list = new ArrayList<Integer>();
                 list.add(2);
-        System.out.println(containers.moveContainers(4,list ));
+        System.out.println(containers.containerMoved(4,list ));*/
     }
+
+
 }

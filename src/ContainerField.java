@@ -11,7 +11,17 @@ public class ContainerField {
         this.slots = slots;
         this.assignments = assignments;
         makeMatrix();
-        placecontainers();
+        placeContainers();
+    }
+
+    private void makeMatrix(){
+        int maxX=0;
+        int maxY=0;
+        for(int i = 0; i < slots.size(); i++){
+            Slot slot = slots.get(i);
+            if (maxX<slot.getX()) maxX = slot.getX();
+            if (maxY<slot.getY()) maxY = slot.getY();
+        }
     }
 
     private void  placeContainers(){
@@ -25,18 +35,7 @@ public class ContainerField {
         System.out.println("");
     }
 
-    private void makeMatrix(){
-        int maxX=0;
-        int maxY=0;
-        for(int i = 0; i < slots.size(); i++){
-            Slot slot = slots.get(i);
-            if (maxX<slot.getX()) maxX = slot.getX();
-            if (maxY<slot.getY()) maxY = slot.getY();
-        }
-
-    }
-
-    private boolean canRemoveContainer(int container_id) {
+    public boolean canRemoveContainer(int container_id) {
         ArrayList<Slot> containerSlots = new ArrayList<>();
 
         for(Slot slot: slots) {
@@ -48,7 +47,7 @@ public class ContainerField {
         return true;
     }
 
-    private boolean canPlaceContainer(int container_id,ArrayList<Integer> destinationSlot_ids) {
+    public boolean canPlaceContainer(int container_id,ArrayList<Integer> destinationSlot_ids) {
         ArrayList<Slot> destinationSlots =  new ArrayList<>();
         for (Integer i: destinationSlot_ids){
             destinationSlots.add(slots.get(i-1));
@@ -88,13 +87,25 @@ public class ContainerField {
         return true;
     }
 
-    public boolean moveContainers(int container_id, ArrayList<Integer> destinationSlot_ids) {
-        ArrayList<Slot> sourceSlots = new ArrayList<>();
-        ArrayList<Slot> destinationSlots = new ArrayList<>();
-
+    public boolean canMoveContainer(int container_id, ArrayList<Integer> destinationSlot_ids) {
         // Check if replacement is possible
         if(!canRemoveContainer(container_id) || !canPlaceContainer(container_id, destinationSlot_ids))
             return false;
         return true;
+    }
+
+
+    public void moveContainer(int container_id,ArrayList<Integer> destinationSlot_ids){
+        ArrayList<Slot> sourceSlots = new ArrayList<>();
+        ArrayList<Slot> destinationSlots = new ArrayList<>();
+        // Update stack of source slots
+        for (Slot s: slots) {
+            if (s.getStack().contains(container_id)) sourceSlots.add(s);
+        }
+        for (Slot ss: sourceSlots) ss.removeTopContainer();
+
+        // Update stack of destination slots
+        for(int ds_id: destinationSlot_ids) destinationSlots.add(slots.get(ds_id));
+        for (Slot ds: destinationSlots) ds.addContainer(container_id);
     }
 }

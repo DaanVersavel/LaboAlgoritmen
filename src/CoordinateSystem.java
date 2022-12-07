@@ -34,28 +34,25 @@ public class CoordinateSystem {
 
         addCoordinate(time2, c2);
         return time2;
-
     }
 
     public ArrayList<Coordinate> getTrajectory() {
-        ArrayList<Coordinate> trajectory = new ArrayList<>();
-        if (getHighestKey()== coordinates.size()) {
-            return trajectory;
-        }
+        Trajectory traj = new Trajectory();
         Coordinate tempCoordinate= null;
         for(int i=0; i<getHighestKey(); i++) {
             if(coordinates.containsKey(i)){
-                trajectory.add(coordinates.get(i));
+                traj.addToTrajectory(coordinates.get(i));
                 tempCoordinate = coordinates.get(i);
             }
             else {
-                trajectory.add(tempCoordinate);
+                traj.addToTrajectory(tempCoordinate);
             }
-            trajectory.add(coordinates.get(i));
+            traj.addToTrajectory(coordinates.get(i));
         }
-        return trajectory;
+        return traj.getTrajectory();
     }
 
+    // key of map
     public int getHighestKey() {
         int max = 0;
         Set<Integer> keys = coordinates.keySet();
@@ -68,4 +65,22 @@ public class CoordinateSystem {
     public Map<Integer, Coordinate> getCoordinates() {
         return coordinates;
     }
+
+    // Safety for cranes
+    public boolean isSafe(ArrayList<Coordinate> trajectory1, ArrayList<Coordinate> trajectory2) {
+        // Aannames:
+        // Beide trajectorys even lang en chronologisch geordend
+        // Kranen kunnen elkaar niet voorbij gaan
+        // Crane 1 zit op linker helft, kraan 2 zit op rechter helft
+        int safetyDistance = 2;
+        for(int i=0; i<trajectory1.size(); i++) {
+            if(((trajectory2.get(i).getXCoordinate()-trajectory1.get(i).getXCoordinate()) < safetyDistance) ||
+                    (trajectory1.get(i).getXCoordinate() > trajectory2.get(i).getXCoordinate()))  {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

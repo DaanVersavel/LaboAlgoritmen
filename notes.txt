@@ -2,4 +2,4 @@ Labo opdracht:
 	1. Coordinate system
 	2. Movement: (t, p1, p2, v) -> t_travel
 	3. Trajectories: T = [t1:p1, t2:p2, …, tk:pk]
-  4. Safety distances: d(Ti, Tj) > sigma
+    4. Safety distances: d(Ti, Tj) > sigma
