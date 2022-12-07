@@ -33,8 +33,6 @@ public class CoordinateSystem {
         else time2=timey2;
 
         addCoordinate(time2, c2);
-        int var;
-
         return time2;
 
     }

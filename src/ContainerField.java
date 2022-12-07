@@ -93,18 +93,8 @@ public class ContainerField {
         ArrayList<Slot> destinationSlots = new ArrayList<>();
 
         // Check if replacement is possible
-        if(!canRemoveContainer(container_id) || !canPlaceContainer(container_id, destinationSlot_ids)) return false;
-
-        // Update stack of source slots
-        for (Slot s: slots) {
-            if (s.getStack().contains(container_id)) sourceSlots.add(s);
-        }
-        for (Slot ss: sourceSlots) ss.removeTopContainer();
-
-        // Update stack of destination slots
-        for(int ds_id: destinationSlot_ids) destinationSlots.add(slots.get(ds_id));
-        for (Slot ds: destinationSlots) ds.addContainer(container_id);
-
+        if(!canRemoveContainer(container_id) || !canPlaceContainer(container_id, destinationSlot_ids))
+            return false;
         return true;
     }
 }
