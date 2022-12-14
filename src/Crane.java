@@ -23,9 +23,7 @@ public class Crane {
         if(canmove) {
 
         }
-
     }
-
 
     public CoordinateSystem getCoordinaatSystem() {
         return coordinaatSystem;
