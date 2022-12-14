@@ -72,7 +72,7 @@ public class CoordinateSystem {
         // Beide trajectorys even lang en chronologisch geordend
         // Kranen kunnen elkaar niet voorbij gaan
         // Crane 1 zit op linker helft, kraan 2 zit op rechter helft
-        int safetyDistance = 2;
+        int safetyDistance = 1;
         for(int i=0; i<trajectory1.size(); i++) {
             if(((trajectory2.get(i).getXCoordinate()-trajectory1.get(i).getXCoordinate()) < safetyDistance) ||
                     (trajectory1.get(i).getXCoordinate() > trajectory2.get(i).getXCoordinate()))  {
