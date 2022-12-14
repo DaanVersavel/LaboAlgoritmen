@@ -20,11 +20,11 @@ public class CoordinateSystem {
             addCoordinate(time1,c1);
         }
         //Calculation x   v=x/t => t=x/v
-        int dx= Math.abs(c2.getXCoordinate() - c1.getXCoordinate()) ;
-        int timex2=dx/vx;
+        double dx= Math.abs(c2.getXCoordinate() - c1.getXCoordinate()) ;
+        int timex2= (int) (dx/vx);
         //Calculation y
-        int dy= Math.abs(c2.getYCoordinate() - c2.getXCoordinate()) ;
-        int timey2=dy/vy;
+        double dy= Math.abs(c2.getYCoordinate() - c2.getXCoordinate()) ;
+        int timey2= (int) (dy/vy);
 
         int time2;
         if(timex2>timey2){

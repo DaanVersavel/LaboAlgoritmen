@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class ContainerField {
-    private ArrayList<Container> containers  = new ArrayList<Container>();
-    private ArrayList<Slot> slots  = new ArrayList<Slot>();
-    private ArrayList<Assignment> assignments  = new ArrayList<Assignment>();
+    private ArrayList<Container> containers;
+    private ArrayList<Slot> slots;
+    private ArrayList<Assignment> assignments;
 
     //works only if there are no missing containers
     ContainerField(ArrayList<Container>containers, ArrayList<Slot>slots, ArrayList<Assignment>assignments){
