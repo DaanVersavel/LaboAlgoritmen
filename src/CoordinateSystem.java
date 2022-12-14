@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CoordinateSystem {
     private Map<Integer, Coordinate> coordinates;
@@ -15,7 +12,7 @@ public class CoordinateSystem {
     }
 
     // Crane movement en trajectory updaten
-    public int movement(int time1, Coordinate c1, Coordinate c2, int vx,int vy) {
+    public int movement(int time1, Coordinate c1, Coordinate c2, double vx,double vy) {
         //check if position already exists
         if(!coordinates.containsKey(time1)){
             addCoordinate(time1,c1);
