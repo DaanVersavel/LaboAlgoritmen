@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static InputData readFile(String path){
-        InputData inputdata= null;
+        InputData inputdata;
         try{
             String jsonString= Files.readString(Paths.get(path));
             Gson gson= new Gson();

@@ -3,11 +3,12 @@ import java.util.ArrayList;
 public class Assignment {
     private int container_id;
     private int slot_id;
-    private ArrayList<Integer> slot_idArray = new ArrayList<>();
+    private ArrayList<Integer> slot_idArray;
 
     Assignment(int container_id, ArrayList<Integer> slot_idArray) {
         this.container_id = container_id;
         this.slot_idArray = slot_idArray;
+        Log log = new Log();
     }
 
     public int getSlot_id() {
