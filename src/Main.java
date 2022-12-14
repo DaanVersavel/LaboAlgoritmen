@@ -31,7 +31,7 @@ public class Main {
     }
     public static void main(String[] args) {
         InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
-        Target target = readFileTarget("");
+        Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");
         inputdata.initAssignment();
         inputdata.modifieInputData();
         ContainerField containerField = new ContainerField(inputdata.getContainers(),inputdata.getSlots(),inputdata.getAssignments());
@@ -39,6 +39,15 @@ public class Main {
         ArrayList<Crane> cranes = new ArrayList<>(inputdata.getCranes());
 
         // methode voor verdelen
+        ArrayList<Assignment> assignments = target.getAssignments();
+
+        while(!assignments.isEmpty()){
+            for(int i = 0; i < assignments.size(); i++){
+
+
+
+            }
+        }
 
         // container per container verplaatsen
         //kraan1.moveContainer();
