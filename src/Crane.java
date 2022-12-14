@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Crane {
@@ -20,8 +21,18 @@ public class Crane {
         Boolean canmove= false;
         canmove= containerField.canMoveContainer(containerId,destinationSlot_ids);
         //if canmove container if can move crane
-        if(canmove) {
+        if(canmove) {}
+    }
 
+    public void moveOutOverlap(double[] sharedInterval) {
+        int time = coordinaatSystem.getHighestKey();
+        if(getXmax() > sharedInterval[1]) {
+            setX(sharedInterval[1]+1);
+            coordinaatSystem.movement(time,);
+        }
+        else {
+            setX(sharedInterval[0]-1);
+            coordinaatSystem.movement(time,);
         }
     }
 

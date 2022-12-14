@@ -14,6 +14,7 @@ public class CoordinateSystem {
         coordinates.put(time, newCoordinate);
     }
 
+    // Crane movement en trajectory updaten
     public int movement(int time1, Coordinate c1, Coordinate c2, int vx,int vy) {
         //check if position already exists
         if(!coordinates.containsKey(time1)){
@@ -80,6 +81,10 @@ public class CoordinateSystem {
             }
         }
         return true;
+    }
+
+    public Coordinate getCoordinate(int key) {
+        return coordinates.get(key);
     }
 
 

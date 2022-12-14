@@ -62,6 +62,18 @@ public class Main {
         return craneToUse;
     }
 
+    private static Boolean canReachTarget(Crane craneToUse, Slot endSlot, double[] sharedInterval) {
+        if(endSlot.getX() <= craneToUse.getXmax() && endSlot.getX() >= craneToUse.getXmin()) {
+            for (int i = 0; i < cranes.size(); i++) {
+                if(cranes.get(i) != craneToUse) {
+                    cranes.get(i).moveOutOverlap(sharedInterval);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
         Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");
@@ -86,7 +98,6 @@ public class Main {
                         break;
                     }
                 }
-                //choose crane
                 //for loop for finding slot with slot_id
                 Slot endSlot= null;
                 for(int j= 0;j<slotlist.size();j++){
@@ -103,17 +114,10 @@ public class Main {
                     sharedInterval[1] = cranes.get(0).getXmax();
                 }
                 Crane craneToUse = getBestFittingCrane(sharedInterval, beginSlot, endSlot);
-
-
+                if(sharedInterval!=null) {
+                    Boolean canReachEnd = canReachTarget(craneToUse, endSlot, sharedInterval);
+                }
             }
         }
     }
-
-        // container per container verplaatsen
-        //kraan1.moveContainer();
-
-        /*System.out.println();
-        ArrayList<Integer> list = new ArrayList<Integer>();
-                list.add(2);
-        System.out.println(containers.containerMoved(4,list ));*/
 }
