@@ -76,16 +76,28 @@ public class InputData {
                     //container en assignment
                     int containerLength= container.getLength();
                     assignment.getSlot_idArray().add(assignment.getSlot_id());
-                    for( int i = 0; i < containerLength; i++ ) {
+                    //Gaan ervan uit dat max 2 lengte
+                    if(containerLength==2){
                         for(Slot slot : slots) {
                             if(slot.getY() == startSlot.getY() &&
-                                    slot.getId() != startSlot.getId() && slot.getX() == startSlot.getY()+1) {
+                                    slot.getId() != startSlot.getId() &&
+                                    slot.getX() == startSlot.getX()+1) {
                                 //if we find next slot
                                 assignment.getSlot_idArray().add(slot.getId());
-                                startSlot=slot;
                             }
                         }
                     }
+//                    for( int i = 0; i < containerLength; i++ ) {
+//                        for(Slot slot : slots) {
+//                            if(slot.getY() == startSlot.getY() &&
+//                                    slot.getId() != startSlot.getId() &&
+//                                    slot.getX() == startSlot.getX()+1) {
+//                                //if we find next slot
+//                                assignment.getSlot_idArray().add(slot.getId());
+//                                startSlot=slot;
+//                            }
+//                        }
+//                    }
                 }
             }
         }
