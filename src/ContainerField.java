@@ -108,4 +108,28 @@ public class ContainerField {
         for(int ds_id: destinationSlot_ids) destinationSlots.add(slots.get(ds_id));
         for (Slot ds: destinationSlots) ds.addContainer(container_id);
     }
+
+    public ArrayList<Container> getContainers() {
+        return containers;
+    }
+
+    public void setContainers(ArrayList<Container> containers) {
+        this.containers = containers;
+    }
+
+    public ArrayList<Slot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(ArrayList<Slot> slots) {
+        this.slots = slots;
+    }
+
+    public ArrayList<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(ArrayList<Assignment> assignments) {
+        this.assignments = assignments;
+    }
 }
