@@ -1,4 +1,3 @@
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Crane {
@@ -11,29 +10,43 @@ public class Crane {
     private double yspeed;
     private double xmax;
     private double xmin;
+
+    private int timeCrane;
     private CoordinateSystem coordinaatSystem;
 
     public Crane() {
         this.coordinaatSystem = new CoordinateSystem();
     }
 
-    public void moveContainer(ContainerField containerField, int containerId, ArrayList<Integer> destinationSlot_ids) {
-        Boolean canmove= false;
-        canmove= containerField.canMoveContainer(containerId,destinationSlot_ids);
+    public void doAssignement(ContainerField containerField, int containerId, ArrayList<Integer> destinationSlot_ids,
+                              Coordinate begin, Coordinate end)
+    {
+        Boolean canmove= containerField.canMoveContainer(containerId,destinationSlot_ids);
         //if canmove container if can move crane
-        if(canmove) {}
+        if(canmove) {
+            //move container
+            containerField.moveContainer(containerId,destinationSlot_ids);
+            //update crane trajectory
+            coordinaatSystem.movement(timeCrane, begin, end, getXspeed(), getYspeed());
+        }
     }
 
-    public void moveOutOverlap(double[] sharedInterval) {
+    public int moveOutOverlap(double[] sharedInterval) {
         int time = coordinaatSystem.getHighestKey();
+        Coordinate beginCoordinate = coordinaatSystem.getCoordinate(time);
+        // Move crane 2 out overlapping area
         if(getXmax() > sharedInterval[1]) {
             setX(sharedInterval[1]+1);
-            coordinaatSystem.movement(time,);
+            Coordinate targetCoordinate = new Coordinate(sharedInterval[1]+1, getY());
+            timeCrane = coordinaatSystem.movement(time,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
         }
+        // Move crane 1 out overlapping area
         else {
             setX(sharedInterval[0]-1);
-            coordinaatSystem.movement(time,);
+            Coordinate targetCoordinate = new Coordinate(sharedInterval[0]-1 ,getY());
+            timeCrane = coordinaatSystem.movement(time,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
         }
+        return timeCrane;
     }
 
     public CoordinateSystem getCoordinaatSystem() {
@@ -114,5 +127,13 @@ public class Crane {
 
     public void setXmin(double xmin) {
         this.xmin = xmin;
+    }
+
+    public int getTimeCrane() {
+        return timeCrane;
+    }
+
+    public void setTimeCrane(int timeCrane) {
+        this.timeCrane = timeCrane;
     }
 }
