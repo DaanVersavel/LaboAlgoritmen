@@ -22,3 +22,11 @@ C
 src/Coordinate.java,f\1\f1e39698d9805c3b310cf435f8214f232fa601ba
 <
 src/Log.java,6\4\644906b6c50c8fe21e6d07d0b2a767b5277c6c75
+B
+src/Container.java,b\f\bf5c2a5d3690924b617b64cac10d1fa1460318dc
+G
+src/ContainerField.java,7\e\7ee6e40666236ec384a7d7182958d5329c60e60c
+I
+src/CoordinateSystem.java,f\d\fd9e86030269dc5aa6d7b123f402ed4782a2b701
+>
+src/Crane.java,9\a\9a44b44a1ac2be45e8824fa9ccc739f311c2a6d0

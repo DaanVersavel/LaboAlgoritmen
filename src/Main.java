@@ -161,12 +161,31 @@ public class Main {
                         craneToUse.doAssignement(containerField, assignment.getContainer_id(),
                                 assignment.getSlot_ids(),begin,end);
                     }
-                    else {
-                        for (int s = 0; s < slotlist.size(); s++) {
-                            ArrayList<Integer> possibleFreeSlots = new ArrayList<>();
 
-                            containerField.canMoveContainer(assignment.getContainer_id(), ))
+                    // Plaats container in gemeenschappelijk deel
+                    else {
+                        if(container.getLength()==1) {
+                            ArrayList<Integer> possibleFreeSlots = new ArrayList<>();
+                            for (int s = 0; s < slotlist.size(); s++) {
+                                if(slotlist.get(s).getX() >= sharedInterval[0] && slotlist.get(s).getX() <= sharedInterval[1]) {
+                                    if(slotlist.get(s).getStack().size()==0 ||
+                                            slotlist.get(s).getStack().size()==slotlist.get(s).getMaxHeight()) {
+                                        possibleFreeSlots.add(slotlist.get(s).getId());
+                                    }
+                                }
+                            }
+                            for (Integer slotID : possibleFreeSlots) {
+                                ArrayList<Integer> targetSlotIDs = new ArrayList<>();
+                                targetSlotIDs.add(slotID);
+                                if(containerField.canMoveContainer(assignment.getContainer_id(),targetSlotIDs)) {
+                                    // verplaats container
+                                }
+                            }
                         }
+                        if(container.getLength()==2) {
+
+                        }
+
                     }
                 }
             }
