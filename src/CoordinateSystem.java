@@ -21,7 +21,7 @@ public class CoordinateSystem {
         double dx= Math.abs(c2.getXCoordinate() - c1.getXCoordinate()) ;
         int timex2= (int) (dx/vx);
         //Calculation y
-        double dy= Math.abs(c2.getYCoordinate() - c2.getXCoordinate()) ;
+        double dy= Math.abs(c2.getYCoordinate() - c1.getYCoordinate()) ;
         int timey2= (int) (dy/vy);
 
         int time2;

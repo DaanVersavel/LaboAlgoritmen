@@ -50,7 +50,10 @@ public class ContainerField {
     public boolean canPlaceContainer(int container_id,ArrayList<Integer> destinationSlot_ids) {
         ArrayList<Slot> destinationSlots =  new ArrayList<>();
         for (Integer i: destinationSlot_ids){
-            destinationSlots.add(slots.get(i-1));
+            //destinationSlots.add(slots.get(i-1));
+            for(Slot slot : slots){
+                if(slot.getId()==i) destinationSlots.add(slot);
+            }
         }
         //check if not surpass Maxheight
         for(Slot s : destinationSlots){
@@ -59,17 +62,23 @@ public class ContainerField {
         //check if slots have same height
         Slot s1= destinationSlots.get(0);
         for(int i=1;i<destinationSlot_ids.size();i++){
-            if(s1.getStack().size() == destinationSlots.get(i).getStack().size()) return false;
+            if(s1.getStack().size() != destinationSlots.get(i).getStack().size()) return false;
         }
         //if all slots have same container id then we can place them
         s1= destinationSlots.get(0);
         int temp=0;
-        for(int i=1;i<destinationSlot_ids.size();i++){
-            if(s1.getTopContainer()==destinationSlots.get(i).getTopContainer()) {
-                temp++;
+        if(!s1.getStack().isEmpty()){
+            for(int i=1;i<destinationSlot_ids.size();i++){
+                if(!destinationSlots.get(i).getStack().isEmpty()){
+                    if(s1.getTopContainer()==destinationSlots.get(i).getTopContainer()) {
+                        temp++;
+                    }
+                    s1= destinationSlots.get(i);
+                }
+
             }
-            s1= destinationSlots.get(i);
         }
+
         if(temp!=destinationSlots.size()) return true;
 
         //last one
@@ -98,14 +107,21 @@ public class ContainerField {
     public void moveContainer(int container_id,ArrayList<Integer> destinationSlot_ids){
         ArrayList<Slot> sourceSlots = new ArrayList<>();
         ArrayList<Slot> destinationSlots = new ArrayList<>();
+        //TODO is dit niet nutteloos eigenlijk dat eerst toevoegen aan lijst om ze dan aantepassen
         // Update stack of source slots
         for (Slot s: slots) {
             if (s.getStack().contains(container_id)) sourceSlots.add(s);
         }
         for (Slot ss: sourceSlots) ss.removeTopContainer();
-
         // Update stack of destination slots
-        for(int ds_id: destinationSlot_ids) destinationSlots.add(slots.get(ds_id));
+        for(Slot s: slots){
+            for(int id: destinationSlot_ids){
+                if(s.getId() == id){
+                    destinationSlots.add(s);
+                }
+            }
+        }
+//        for(int ds_id: destinationSlot_ids) {destinationSlots.add(slots.get(ds_id));
         for (Slot ds: destinationSlots) ds.addContainer(container_id);
     }
 

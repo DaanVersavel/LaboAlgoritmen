@@ -5,7 +5,7 @@ public class Crane {
     private double y;
     private double ymin;
     private double ymax;
-    private double id;
+    private int id;
     private double xspeed;
     private double yspeed;
     private double xmax;
@@ -18,33 +18,36 @@ public class Crane {
         this.coordinaatSystem = new CoordinateSystem();
     }
 
-    public void doAssignement(ContainerField containerField, int containerId, ArrayList<Integer> destinationSlot_ids,
-                              Coordinate begin, Coordinate end)
+
+    public boolean doAssignement(ContainerField containerField, int containerId, ArrayList<Integer> destinationSlot_ids,
+                              Coordinate beginCrane, Coordinate endCrane)
     {
-        Boolean canmove= containerField.canMoveContainer(containerId,destinationSlot_ids);
-        //if canmove container if can move crane
+        boolean canmove= containerField.canMoveContainer(containerId,destinationSlot_ids);
+        //if canmove container
         if(canmove) {
             //move container
             containerField.moveContainer(containerId,destinationSlot_ids);
             //update crane trajectory
-            coordinaatSystem.movement(timeCrane, begin, end, getXspeed(), getYspeed());
+            timeCrane+= coordinaatSystem.movement(timeCrane, beginCrane, endCrane, getXspeed(), getYspeed());
+            return true;
         }
+        return false;
     }
 
     public int moveOutOverlap(double[] sharedInterval) {
-        int time = coordinaatSystem.getHighestKey();
-        Coordinate beginCoordinate = coordinaatSystem.getCoordinate(time);
+        int highestKey=coordinaatSystem.getHighestKey();
+        Coordinate beginCoordinate = coordinaatSystem.getCoordinate(highestKey);
         // Move crane 2 out overlapping area
         if(getXmax() > sharedInterval[1]) {
             setX(sharedInterval[1]+1);
             Coordinate targetCoordinate = new Coordinate(sharedInterval[1]+1, getY());
-            timeCrane = coordinaatSystem.movement(time,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
+            timeCrane+= coordinaatSystem.movement(timeCrane,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
         }
         // Move crane 1 out overlapping area
         else {
             setX(sharedInterval[0]-1);
             Coordinate targetCoordinate = new Coordinate(sharedInterval[0]-1 ,getY());
-            timeCrane = coordinaatSystem.movement(time,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
+            timeCrane += coordinaatSystem.movement(timeCrane,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
         }
         return timeCrane;
     }
@@ -89,11 +92,11 @@ public class Crane {
         this.ymax = ymax;
     }
 
-    public double getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(double id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -135,5 +138,11 @@ public class Crane {
 
     public void setTimeCrane(int timeCrane) {
         this.timeCrane = timeCrane;
+    }
+
+    public void init() {
+        coordinaatSystem= new CoordinateSystem();
+        Coordinate coordinate = new Coordinate(x,y);
+        coordinaatSystem.addCoordinate(timeCrane,coordinate);
     }
 }

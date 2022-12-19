@@ -63,6 +63,9 @@ public class InputData {
     }
 
     public void modifieInputData(){
+        for(Crane crane : cranes) {
+            crane.init();
+        }
         for(Assignment assignment : assignments) {
             int containerId = assignment.getContainer_id();
             for(Container container : containers) {

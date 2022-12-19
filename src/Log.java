@@ -8,7 +8,8 @@ public class Log {
     private double endPositionX;
     private double endPositionY;
 
-    public Log() {}
+    public Log() {
+    }
 
     public int getCraneId() {
         return craneId;
@@ -75,7 +76,14 @@ public class Log {
     }
 
     public void printLog() {
-        System.out.println(craneId+","+containerId+","+pickUpTime+","+endTime+","+pickUpPositionX+","+
-                pickUpPositionY+","+endPositionX+","+endPositionY);
+        System.out.println("CraneID:"+craneId+", ContainerID:"+containerId+", PickupTime:"+pickUpTime+", EndTime: "+endTime+", PickupPositionX:"+
+                pickUpPositionX+", PickupPositionY:"+pickUpPositionY+", EndPositionX:"+endPositionX+", EndPositionY:"+endPositionY);
+    }
+
+    public void addPositions(Coordinate begin, Coordinate end) {
+        pickUpPositionX= begin.getXCoordinate();
+        pickUpPositionY= begin.getYCoordinate();
+        endPositionX=end.getXCoordinate();
+        endPositionY= end.getYCoordinate();
     }
 }
