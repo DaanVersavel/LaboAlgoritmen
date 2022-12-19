@@ -1,46 +1,52 @@
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ContainerField {
-    private ArrayList<Container> containers;
-    private ArrayList<Slot> slots;
+    private Map<Integer,Container> containers;
+    private Map<Integer, Slot> slots;
     private ArrayList<Assignment> assignments;
 
     //works only if there are no missing containers
-    ContainerField(ArrayList<Container>containers, ArrayList<Slot>slots, ArrayList<Assignment>assignments){
+    ContainerField(Map<Integer,Container>containers, Map<Integer, Slot>slots, ArrayList<Assignment>assignments){
         this.containers = containers;
         this.slots = slots;
         this.assignments = assignments;
-        makeMatrix();
+//        makeMatrix();
         placeContainers();
     }
 
-    private void makeMatrix(){
-        int maxX=0;
-        int maxY=0;
-        for(int i = 0; i < slots.size(); i++){
-            Slot slot = slots.get(i);
-            if (maxX<slot.getX()) maxX = slot.getX();
-            if (maxY<slot.getY()) maxY = slot.getY();
-        }
-    }
+//    private void makeMatrix(){
+//        int maxX=0;
+//        int maxY=0;
+//        for(int i = 0; i < slots.size(); i++){
+//            Slot slot = slots.get(i);
+//            if (maxX<slot.getX()) maxX = slot.getX();
+//            if (maxY<slot.getY()) maxY = slot.getY();
+//        }
+//    }
 
     private void  placeContainers(){
         for(Assignment a : assignments){
             int cont_id = a.getContainer_id();
-            ArrayList<Integer> slot_ids= a.getSlot_ids();
+            ArrayList<Integer> slot_ids= a.getSlot_idArray();
+
             for (int slot_id: slot_ids) {
-                slots.get(slot_id-1).addContainer(cont_id);
+                Slot s= slots.get(slot_id);
+                s.addContainer(cont_id);
+//                for(Slot slot : slots){
+//                    if(slot.getId() ==slot_id) slot.addContainer(cont_id);
+//                }
             }
         }
-        System.out.println("");
     }
 
     public boolean canRemoveContainer(int container_id) {
         ArrayList<Slot> containerSlots = new ArrayList<>();
 
-        for(Slot slot: slots) {
+        for(Slot slot: slots.values()) {
             if(slot.getStack().contains(container_id)) containerSlots.add(slot);
         }
+
         for(Slot slot: containerSlots) {
             if(slot.getTopContainer() != container_id) return false;
         }
@@ -49,11 +55,13 @@ public class ContainerField {
 
     public boolean canPlaceContainer(int container_id,ArrayList<Integer> destinationSlot_ids) {
         ArrayList<Slot> destinationSlots =  new ArrayList<>();
-        for (Integer i: destinationSlot_ids){
+        for (Integer slotid: destinationSlot_ids){
+            Slot s = slots.get(slotid);
+            destinationSlots.add(s);
             //destinationSlots.add(slots.get(i-1));
-            for(Slot slot : slots){
-                if(slot.getId()==i) destinationSlots.add(slot);
-            }
+//            for(Slot slot : slots){
+//                if(slot.getId()==slotid) destinationSlots.add(slot);
+//            }
         }
         //check if not surpass Maxheight
         for(Slot s : destinationSlots){
@@ -75,7 +83,6 @@ public class ContainerField {
                     }
                     s1= destinationSlots.get(i);
                 }
-
             }
         }
 
@@ -86,7 +93,7 @@ public class ContainerField {
         for(Slot s : destinationSlots){
             ArrayList<Slot> containerSlots = new ArrayList<>();
             int lowerContainerID = s.getTopContainer();
-            for(Slot slot: slots) {
+            for(Slot slot: slots.values()) {
                 if(slot.getStack().contains(lowerContainerID)) containerSlots.add(slot);
             }
             for (Slot slot1 : containerSlots){
@@ -109,12 +116,12 @@ public class ContainerField {
         ArrayList<Slot> destinationSlots = new ArrayList<>();
         //TODO is dit niet nutteloos eigenlijk dat eerst toevoegen aan lijst om ze dan aantepassen
         // Update stack of source slots
-        for (Slot s: slots) {
+        for (Slot s: slots.values()) {
             if (s.getStack().contains(container_id)) sourceSlots.add(s);
         }
         for (Slot ss: sourceSlots) ss.removeTopContainer();
         // Update stack of destination slots
-        for(Slot s: slots){
+        for(Slot s: slots.values()){
             for(int id: destinationSlot_ids){
                 if(s.getId() == id){
                     destinationSlots.add(s);
@@ -125,19 +132,19 @@ public class ContainerField {
         for (Slot ds: destinationSlots) ds.addContainer(container_id);
     }
 
-    public ArrayList<Container> getContainers() {
+    public Map<Integer,Container> getContainers() {
         return containers;
     }
 
-    public void setContainers(ArrayList<Container> containers) {
+    public void setContainers(Map<Integer,Container> containers) {
         this.containers = containers;
     }
 
-    public ArrayList<Slot> getSlots() {
+    public Map<Integer, Slot> getSlots() {
         return slots;
     }
 
-    public void setSlots(ArrayList<Slot> slots) {
+    public void setSlots(Map<Integer, Slot> slots) {
         this.slots = slots;
     }
 

@@ -7,12 +7,22 @@ public class Log {
     private double pickUpPositionY;
     private double endPositionX;
     private double endPositionY;
+    private Boolean interval;
 
     public Log() {
+        interval=false;
     }
 
     public int getCraneId() {
         return craneId;
+    }
+
+    public Boolean getInterval() {
+        return interval;
+    }
+
+    public void setInterval(Boolean interval) {
+        this.interval = interval;
     }
 
     public void setCraneId(int craneId) {
@@ -77,7 +87,7 @@ public class Log {
 
     public void printLog() {
         System.out.println("CraneID:"+craneId+", ContainerID:"+containerId+", PickupTime:"+pickUpTime+", EndTime: "+endTime+", PickupPositionX:"+
-                pickUpPositionX+", PickupPositionY:"+pickUpPositionY+", EndPositionX:"+endPositionX+", EndPositionY:"+endPositionY);
+                pickUpPositionX+", PickupPositionY:"+pickUpPositionY+", EndPositionX:"+endPositionX+", EndPositionY:"+endPositionY+", Interval: "+interval);
     }
 
     public void addPositions(Coordinate begin, Coordinate end) {

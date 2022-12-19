@@ -8,7 +8,6 @@ public class Assignment {
     Assignment(int container_id, ArrayList<Integer> slot_idArray) {
         this.container_id = container_id;
         this.slot_idArray = slot_idArray;
-        Log log = new Log();
     }
 
     public int getSlot_id() {
@@ -27,9 +26,9 @@ public class Assignment {
 
     public void setContainer_id(int container_id) { this.container_id = container_id; }
 
-    public ArrayList<Integer> getSlot_ids() {
-        return slot_idArray;
-    }
+//    public ArrayList<Integer> getSlot_ids() {
+//        return slot_idArray;
+//    }
 
     public void setSlot_idArray(ArrayList<Integer> slot_ids) {
         this.slot_idArray = slot_ids;

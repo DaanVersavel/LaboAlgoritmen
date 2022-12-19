@@ -1,6 +1,7 @@
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Target {
 
@@ -37,23 +38,31 @@ public class Target {
         this.assignments = assignments;
     }
 
-    public void modifyTargetData(ArrayList<Slot> slots, ArrayList<Container> containers) {
+    public void modifyTargetData(Map<Integer, Slot> slots, Map<Integer,Container> containers) {
         for(Assignment assignment: assignments) {
-            Container c=null;
-            for(Container container :containers ){
-                if(container.getId()==assignment.getContainer_id()) c=container;
-            }
-            //start slot
-            Slot s1= null;
-            for(Slot slot: slots) {
-                if(slot.getId()==assignment.getSlot_id()) s1=slot;
-            }
-            assignment.getSlot_ids().add(s1.getId());
-            if(c.getLength()==2){
-                for(Slot slot: slots) {
-                    if(s1.getX()+1==slot.getX() &&s1.getId()!=slot.getId()) assignment.getSlot_ids().add(slot.getId());
+            int firstslotID = assignment.getSlot_id();
+            Container container = containers.get(assignment.getContainer_id());
+
+            //assign first slot
+            assignment.getSlot_idArray().add(firstslotID);
+
+            Slot previousSlot= slots.get(assignment.getSlot_id());
+            int lengthToGo= container.getLength()-1;
+            for(int i=0;i<lengthToGo;i++){
+                for(Slot slot : slots.values()){
+                    if(slot.getX()== previousSlot.getX()+1 &&slot.getY()== previousSlot.getY()) {
+                        assignment.getSlot_idArray().add(slot.getId());
+                        previousSlot=slot;
+                        break;
+                    }
                 }
             }
+
+//            if(c.getLength()==2){
+//                for(Slot slot: slots.values()) {
+//                    if(s1.getX()+1==slot.getX() &&s1.getId()!=slot.getId()) assignment.getSlot_idArray().add(slot.getId());
+//                }
+//            }
 
         }
     }
