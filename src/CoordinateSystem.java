@@ -34,6 +34,16 @@ public class CoordinateSystem {
         return time2;
     }
 
+    // key of map
+    public int getHighestKey() {
+        int max = 0;
+        Set<Integer> keys = coordinates.keySet();
+        for(int key: keys) {
+            if (key>max) max = key;
+        }
+        return max;
+    }
+
     public ArrayList<Coordinate> getTrajectory() {
         Trajectory traj = new Trajectory();
         Coordinate tempCoordinate= null;
@@ -48,16 +58,6 @@ public class CoordinateSystem {
             traj.addToTrajectory(coordinates.get(i));
         }
         return traj.getTrajectory();
-    }
-
-    // key of map
-    public int getHighestKey() {
-        int max = 0;
-        Set<Integer> keys = coordinates.keySet();
-        for(int key: keys) {
-            if (key>max) max = key;
-        }
-        return max;
     }
 
     public Map<Integer, Coordinate> getCoordinates() {
@@ -83,6 +83,4 @@ public class CoordinateSystem {
     public Coordinate getCoordinate(int key) {
         return coordinates.get(key);
     }
-
-
 }

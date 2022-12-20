@@ -99,14 +99,6 @@ public class Main {
         }
         return false;
     }
-    private static Slot getSlot(ArrayList<Slot> slotlist,int slotid){
-        for(Slot slot : slotlist) {
-            if(slot.getId() == slotid) {
-                return slot;
-            }
-        }
-        return null;
-    }
     private static ArrayList<Integer> findFreeSlots(double[] sharedInterval, Map<Integer, Slot> slotsMap){
         ArrayList<Integer> possibleFreeSlots = new ArrayList<>();
         for (Slot slot: slotsMap.values()) {
@@ -149,6 +141,8 @@ public class Main {
         Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");*/
         InputData inputdata= readFile("src/input/3t/TerminalA_20_10_3_2_160.json");
         Target target = readFileTarget("src/input/3t/targetTerminalA_20_10_3_2_160.json");
+        /*InputData inputdata= readFile("src/input/5t/TerminalB_20_10_3_2_160.json");
+        Target target = readFileTarget("src/input/5t/targetTerminalB_20_10_3_2_160.json");*/
 
         inputdata.initAssignment();
         inputdata.modifyInputData();
@@ -163,7 +157,6 @@ public class Main {
 
         ArrayList<Assignment> assignments = target.getAssignments();
         while(!assignments.isEmpty()){
-            //TODO geval container 115 is nakijken voor input 3t
             Assignment assignment = assignments.remove(0);
             Map<Integer, Slot> slotsMap = containerField.getSlots();
             Log log = new Log();

@@ -18,25 +18,22 @@ public class Slot {
 
     @Override
     public boolean equals(Object o) {
-
         // If the object is compared with itself then return true
         if (o == this) {
             return true;
         }
-
-    /* Check if o is an instance of Complex or not
-      "null instanceof [type]" also returns false */
+        /* Check if o is an instance of Complex or not
+        "null instanceof [type]" also returns false */
         if (!(o instanceof Slot)) {
             return false;
         }
-
         // typecast o to Complex so that we can compare data members
         Slot c = (Slot) o;
-
         // Compare the data members and return accordingly
         return (id == c.id && x == c.x && y == c.y &&maxHeight ==c.maxHeight
                 && stack.equals(c.stack));
     }
+
     // Doordat we de constructor eigenlijk niet gebruiken wordt de stack nooit geïnitialiseerd.
     public void initialiseStack() {
         this.stack = new Stack<Integer>();
