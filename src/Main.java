@@ -127,11 +127,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
-//        Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");
+        InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
+        Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");
 
-        InputData inputdata= readFile("src/input/3t/TerminalA_20_10_3_2_160.json");
-        Target target = readFileTarget("src/input/3t/targetTerminalA_20_10_3_2_160.json");
+//        InputData inputdata= readFile("src/input/3t/TerminalA_20_10_3_2_160.json");
+//        Target target = readFileTarget("src/input/3t/targetTerminalA_20_10_3_2_160.json");
         inputdata.initAssignment();
         inputdata.modifyInputData();
         ContainerField containerField = new ContainerField(inputdata.getContainersMap(),inputdata.getSlots(),inputdata.getAssignments());
@@ -211,8 +211,8 @@ public class Main {
                     }
                     else endSlotXCoordinate+=0.5;
 
-                    Coordinate begin = new Coordinate(beginSlotXCoordinate, beginSlot.getY());
-                    Coordinate end = new Coordinate(endSlotXCoordinate, endSlot.getY());
+                    Coordinate begin = new Coordinate(beginSlotXCoordinate, beginSlot.getY()+0.5);
+                    Coordinate end = new Coordinate(endSlotXCoordinate, endSlot.getY()+0.5);
 
                     //move container if we can do in one movement
                     if(canReachEnd)  {
@@ -262,7 +262,7 @@ public class Main {
 //                                    }
                                     Slot targetSlotShared=slotsMap.get(slotId);
                                     //container length is 1 so
-                                    Coordinate containerEnd = new Coordinate(targetSlotShared.getX()+0.5,targetSlotShared.getY());
+                                    Coordinate containerEnd = new Coordinate(targetSlotShared.getX()+0.5,targetSlotShared.getY()+0.5);
                                     // verplaats container
                                     log.setPickUpTime(craneToUse.getTimeCrane());
                                     craneToUse.doAssignement(containerField, assignment.getContainer_id(), targetSlotIDs,begin,containerEnd);
@@ -328,7 +328,7 @@ public class Main {
                                         targetSlotIDs.add(slot1.getId());
                                         targetSlotIDs.add(slot2.getId());
                                         //container length is 2 so
-                                        Coordinate containerEnd = new Coordinate(slot1.getX()+1,slot1.getY());
+                                        Coordinate containerEnd = new Coordinate(slot1.getX()+1,slot1.getY()+0.5);
                                         // verplaats container
                                         log.setPickUpTime(craneToUse.getTimeCrane());
 
@@ -367,8 +367,8 @@ public class Main {
                         endSlotXCoordinate+=1;
                     }
                     else endSlotXCoordinate+=0.5;
-                    Coordinate begin = new Coordinate(beginSlotXCoordinate, beginSlot.getY());
-                    Coordinate end = new Coordinate(endSlotXCoordinate, endSlot.getY());
+                    Coordinate begin = new Coordinate(beginSlotXCoordinate, beginSlot.getY()+0.5);
+                    Coordinate end = new Coordinate(endSlotXCoordinate, endSlot.getY()+0.5);
                     log.setPickUpTime(craneToUse.getTimeCrane());
                     craneToUse.doAssignement(containerField, assignment.getContainer_id(),
                             assignment.getSlot_idArray(),begin,end);
