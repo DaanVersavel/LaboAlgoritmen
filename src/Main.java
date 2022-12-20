@@ -204,12 +204,12 @@ public class Main {
                 Coordinate end = newCoordinates[1];
 
                 //move container if we can do in one movement
-                if(canReachEnd)  {
+                if (canReachEnd) {
                     log.setPickUpTime(craneToUse.getTimeCrane());
                     craneToUse.doAssignement(containerField, assignment.getContainer_id(),
-                            assignment.getSlot_idArray(),begin,end);
+                            assignment.getSlot_idArray(), begin, end);
                     updateCraneTime(craneToUse);
-                    log.addPositions(begin,end);
+                    log.addPositions(begin, end);
                     log.setEndTime(craneToUse.getTimeCrane());
                     logs.add(log);
                 }
@@ -220,119 +220,118 @@ public class Main {
                     //find all available slots
                     ArrayList<Integer> possibleFreeSlots = findFreeSlots(overlappingArea, slotsMap);
                     //if container is length 1 we can place in first shared interval
-                    if(container.getLength()==1) {
-                        boolean containermoved=true;
+                    if (container.getLength() == 1) {
+                        boolean containermoved = true;
                         // Check free slots in overlapping area
-                        while(!possibleFreeSlots.isEmpty() && containermoved) {
+                        while (!possibleFreeSlots.isEmpty() && containermoved) {
                             ArrayList<Integer> targetSlotIDs = new ArrayList<>();
-                            int slotId= possibleFreeSlots.get(0);
+                            int slotId = possibleFreeSlots.get(0);
                             targetSlotIDs.add(slotId);
-                            if(containerField.canMoveContainer(assignment.getContainer_id(),targetSlotIDs)) {
-                                Slot targetSlotShared=slotsMap.get(slotId);
+                            if (containerField.canMoveContainer(assignment.getContainer_id(), targetSlotIDs)) {
+                                Slot targetSlotShared = slotsMap.get(slotId);
                                 //container length is 1 so
-                                Coordinate containerEnd = new Coordinate(targetSlotShared.getX()+0.5,targetSlotShared.getY()+0.5);
+                                Coordinate containerEnd = new Coordinate(targetSlotShared.getX() + 0.5, targetSlotShared.getY() + 0.5);
                                 // verplaats container
                                 log.setPickUpTime(craneToUse.getTimeCrane());
-                                craneToUse.doAssignement(containerField, assignment.getContainer_id(), targetSlotIDs,begin,containerEnd);
+                                craneToUse.doAssignement(containerField, assignment.getContainer_id(), targetSlotIDs, begin, containerEnd);
                                 updateCraneTime(craneToUse);
-                                log.addPositions(begin,containerEnd);
+                                log.addPositions(begin, containerEnd);
                                 log.setEndTime(craneToUse.getTimeCrane());
                                 //if container moved we can stop for loop
-                                containermoved=false;
+                                containermoved = false;
                                 logs.add(log);
                             }
                         }
                     }
 
                     //2 op elkaar volgende x sloten vinden
-                    else if(container.getLength()==2) {
+                    else if (container.getLength() == 2) {
                         //2 op elkaar volgende sloten
-                        boolean containermoved=false;
+                        boolean containermoved = false;
                         // Check free slots in overlapping area
-                        for(int i=0;i<possibleFreeSlots.size();i++) {
+                        for (int i = 0; i < possibleFreeSlots.size(); i++) {
                             ArrayList<Integer> targetSlotIDs = new ArrayList<>();
-                            Slot slot1= slotsMap.get(possibleFreeSlots.get(i));
+                            Slot slot1 = slotsMap.get(possibleFreeSlots.get(i));
                             assert slot1 != null;
                             targetSlotIDs.add(slot1.getId());
-                            for(int j=0;j<possibleFreeSlots.size();j++) {
-                                Slot slot2= slotsMap.get(possibleFreeSlots.get(j));
+                            for (int j = 0; j < possibleFreeSlots.size(); j++) {
+                                Slot slot2 = slotsMap.get(possibleFreeSlots.get(j));
                                 assert slot2 != null;
 
-                                if(slot1.getX()+1 == slot2.getX()&& slot1.getY() ==slot2.getY()) {
+                                if (slot1.getX() + 1 == slot2.getX() && slot1.getY() == slot2.getY()) {
                                     targetSlotIDs.add(slot2.getId());
-                                    int extra = container.getLength()/2;
-                                    Coordinate containerEnd = new Coordinate(slot1.getX()+extra,slot1.getY()+0.5);
+                                    extra = container.getLength() / 2;
+                                    Coordinate containerEnd = new Coordinate(slot1.getX() + extra, slot1.getY() + 0.5);
                                     // Verplaats container
                                     log.setPickUpTime(craneToUse.getTimeCrane());
 
-                                    containermoved= craneToUse.doAssignement(containerField, assignment.getContainer_id(), targetSlotIDs,begin,containerEnd);
-                                    if(containermoved) {
-                                        log.addPositions(begin,containerEnd);
+                                    containermoved = craneToUse.doAssignement(containerField, assignment.getContainer_id(), targetSlotIDs, begin, containerEnd);
+                                    if (containermoved) {
+                                        log.addPositions(begin, containerEnd);
                                         log.setEndTime(craneToUse.getTimeCrane());
                                         updateCraneTime(craneToUse);
                                         logs.add(log);
                                         break;
-                                    }
-                                    else{
+                                    } else {
                                         targetSlotIDs.clear();
                                     }
                                 }
                             }
                             //for loop stoppen als we container verplaatst hebben
-                            if(containermoved) {
+                            if (containermoved) {
                                 break;
                             }
                         }
                     }
 
                     //3 op elkaar volgende x sloten vinden
-                    else if(container.getLength()==3) {
+                    else if (container.getLength() == 3) {
                         //3 op elkaar volgende sloten
-                        boolean containermoved=false;
+                        boolean containermoved = false;
                         // Check free slots in overlapping area
-                        for(int i=0; i<possibleFreeSlots.size(); i++) {
+                        for (int i = 0; i < possibleFreeSlots.size(); i++) {
                             ArrayList<Integer> targetSlotIDs = new ArrayList<>();
-                            Slot slot1= slotsMap.get(possibleFreeSlots.get(i));
+                            Slot slot1 = slotsMap.get(possibleFreeSlots.get(i));
                             assert slot1 != null;
                             targetSlotIDs.add(slot1.getId());
-                            for(int j=0; j<possibleFreeSlots.size(); j++) {
-                                Slot slot2= slotsMap.get(possibleFreeSlots.get(j));
+                            for (int j = 0; j < possibleFreeSlots.size(); j++) {
+                                Slot slot2 = slotsMap.get(possibleFreeSlots.get(j));
                                 assert slot2 != null;
-                                for (int k=0; k<possibleFreeSlots.size(); k++) {
-                                    Slot slot3= slotsMap.get(possibleFreeSlots.get(k));
+                                for (int k = 0; k < possibleFreeSlots.size(); k++) {
+                                    Slot slot3 = slotsMap.get(possibleFreeSlots.get(k));
                                     assert slot3 != null;
                                     //TODO checken op Y value ook aangepast in de lengte 2
-                                    if(slot1.getX()+1 == slot2.getX() && slot2.getX()+1 == slot3.getX() && slot1.getY()==slot2.getY() &&slot2.getY()== slot3.getY()) {
+                                    if (slot1.getX() + 1 == slot2.getX() && slot2.getX() + 1 == slot3.getX() && slot1.getY() == slot2.getY() && slot2.getY() == slot3.getY()) {
                                         targetSlotIDs.add(slot2.getId());
                                         targetSlotIDs.add(slot3.getId());
 
-                                    if(slot1.getX()+1 == slot2.getX() && slot2.getX()+1 == slot3.getX()) {
-                                        int extra = container.getLength()/2;
-                                        Coordinate containerEnd = new Coordinate(slot1.getX()+extra,slot1.getY()+0.5);
-                                        // Verplaats container
-                                        log.setPickUpTime(craneToUse.getTimeCrane());
-                                        containermoved= craneToUse.doAssignement(containerField,assignment.getContainer_id(),targetSlotIDs,begin,containerEnd);
-                                        if(containermoved) {
-                                            log.addPositions(begin,containerEnd);
-                                            log.setEndTime(craneToUse.getTimeCrane());
-                                            updateCraneTime(craneToUse);
-                                            logs.add(log);
-                                            break;
-                                        }
-                                        else{
-                                            targetSlotIDs.clear();
+                                        if (slot1.getX() + 1 == slot2.getX() && slot2.getX() + 1 == slot3.getX()) {
+                                            extra = container.getLength() / 2;
+                                            Coordinate containerEnd = new Coordinate(slot1.getX() + extra, slot1.getY() + 0.5);
+                                            // Verplaats container
+                                            log.setPickUpTime(craneToUse.getTimeCrane());
+                                            containermoved = craneToUse.doAssignement(containerField, assignment.getContainer_id(), targetSlotIDs, begin, containerEnd);
+                                            if (containermoved) {
+                                                log.addPositions(begin, containerEnd);
+                                                log.setEndTime(craneToUse.getTimeCrane());
+                                                updateCraneTime(craneToUse);
+                                                logs.add(log);
+                                                break;
+                                            } else {
+                                                targetSlotIDs.clear();
+                                            }
                                         }
                                     }
-                                }
-                                //for loop stoppen als we container verplaatst hebben
-                                if(containermoved) {
-                                    break;
+                                    //for loop stoppen als we container verplaatst hebben
+                                    if (containermoved) {
+                                        break;
+                                    }
                                 }
                             }
                         }
+                        //Assignement terug toevoegen want is nog niet af
+                        assignments.add(assignment);
                     }
-                    //Assignement terug toevoegen want is nog niet af
-                    assignments.add(assignment);
                 }
             }
             else {
