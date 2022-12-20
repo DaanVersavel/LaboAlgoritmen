@@ -260,11 +260,9 @@ public class Main {
 
                                 if (slot1.getX() + 1 == slot2.getX() && slot1.getY() == slot2.getY()) {
                                     targetSlotIDs.add(slot2.getId());
-                                    extra = container.getLength() / 2;
-                                    Coordinate containerEnd = new Coordinate(slot1.getX() + extra, slot1.getY() + 0.5);
+                                    Coordinate containerEnd = new Coordinate(slot1.getX()+extra, slot1.getY() + 0.5);
                                     // Verplaats container
                                     log.setPickUpTime(craneToUse.getTimeCrane());
-
                                     containermoved = craneToUse.doAssignement(containerField, assignment.getContainer_id(), targetSlotIDs, begin, containerEnd);
                                     if (containermoved) {
                                         log.addPositions(begin, containerEnd);
@@ -272,15 +270,11 @@ public class Main {
                                         updateCraneTime(craneToUse);
                                         logs.add(log);
                                         break;
-                                    } else {
-                                        targetSlotIDs.clear();
-                                    }
+                                    } else {targetSlotIDs.clear();}
                                 }
                             }
                             //for loop stoppen als we container verplaatst hebben
-                            if (containermoved) {
-                                break;
-                            }
+                            if (containermoved) {break;}
                         }
                     }
 
@@ -300,13 +294,12 @@ public class Main {
                                 for (int k = 0; k < possibleFreeSlots.size(); k++) {
                                     Slot slot3 = slotsMap.get(possibleFreeSlots.get(k));
                                     assert slot3 != null;
-                                    //TODO checken op Y value ook aangepast in de lengte 2
+
                                     if (slot1.getX() + 1 == slot2.getX() && slot2.getX() + 1 == slot3.getX() && slot1.getY() == slot2.getY() && slot2.getY() == slot3.getY()) {
                                         targetSlotIDs.add(slot2.getId());
                                         targetSlotIDs.add(slot3.getId());
 
                                         if (slot1.getX() + 1 == slot2.getX() && slot2.getX() + 1 == slot3.getX()) {
-                                            extra = container.getLength() / 2;
                                             Coordinate containerEnd = new Coordinate(slot1.getX() + extra, slot1.getY() + 0.5);
                                             // Verplaats container
                                             log.setPickUpTime(craneToUse.getTimeCrane());
@@ -323,9 +316,7 @@ public class Main {
                                         }
                                     }
                                     //for loop stoppen als we container verplaatst hebben
-                                    if (containermoved) {
-                                        break;
-                                    }
+                                    if (containermoved) {break;}
                                 }
                             }
                         }
@@ -347,8 +338,6 @@ public class Main {
                 logs.add(log);
             }
         }
-        for(Log l : logs) {
-            l.printLog();
-        }
+        for(Log l : logs) {l.printLog();}
     }
 }
