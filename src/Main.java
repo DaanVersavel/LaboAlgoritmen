@@ -39,25 +39,27 @@ public class Main {
             }
         }
     }
-    private static Crane getBestFittingCrane(double[] sharedInterval, Slot beginSlot, Slot endSlot) {
-        // TODO take centre of contiainer
+    private static Crane getBestFittingCrane(double[] sharedInterval, Slot beginSlot, Slot endSlot, double extra) {
         Crane craneToUse = null;
+        double beginSlotX = beginSlot.getX()+extra;
+        double endSlotX = endSlot.getX()+extra;
+
         if(sharedInterval == null) {craneToUse = cranes.get(0);}
         else {
             for (Crane crane : cranes) {
                 // Kijk of kraan aan begintslot kan
-                if (crane.getXmin() <= beginSlot.getX() && beginSlot.getX() <= crane.getXmax()) {
+                if (crane.getXmin() <= beginSlotX && beginSlotX <= crane.getXmax()) {
                     // Scenario: beginslot in overlapping gebied
-                    if (sharedInterval[0] <= beginSlot.getX() && beginSlot.getX() <= sharedInterval[1]) {
+                    if (sharedInterval[0] <= beginSlotX && beginSlotX <= sharedInterval[1]) {
                         if(crane.getId()==1){
-                            if (endSlot.getX() < crane.getXmin() ) {
+                            if (endSlotX < crane.getXmin() ) {
                                 continue;
                             } else {
                                 craneToUse = crane;
                             }
                         }
                         else {
-                            if (endSlot.getX() > crane.getXmax() ) {
+                            if (endSlotX > crane.getXmax() ) {
                                 continue;
                             } else {
                                 craneToUse = crane;
@@ -65,11 +67,11 @@ public class Main {
                         }
                     }
                     // Scenario: beginslot gebied 1
-                    if (beginSlot.getX() <= sharedInterval[0] && crane.getXmin() < sharedInterval[0]) {
+                    if (beginSlotX <= sharedInterval[0] && crane.getXmin() < sharedInterval[0]) {
                         craneToUse = crane;
                     }
                     // Scenario: beginslot gebied 2
-                    if (beginSlot.getX() >= sharedInterval[1] && crane.getXmax() > sharedInterval[1]) {
+                    if (beginSlotX >= sharedInterval[1] && crane.getXmax() > sharedInterval[1]) {
                         craneToUse = crane;
                     }
                 }
@@ -115,7 +117,7 @@ public class Main {
         if(cranes.size() == 2) {
             overlappingArea = new double[2];
             overlappingArea[0] = cranes.get(1).getXmin();
-            overlappingArea[1] = cranes.get(0).getXmax();
+            overlappingArea[1] = (cranes.get(0).getXmax()+0.5);
         }
         return overlappingArea;
     }
@@ -138,10 +140,14 @@ public class Main {
 
         /*InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
         Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");*/
+        /*InputData inputdata= readFile("src/input/1t/TerminalA_20_10_3_2_100.json");
+        Target target = readFileTarget("src/input/1t/targetTerminalA_20_10_3_2_100.json");*/
         /*InputData inputdata= readFile("src/input/3t/TerminalA_20_10_3_2_160.json");
         Target target = readFileTarget("src/input/3t/targetTerminalA_20_10_3_2_160.json");*/
         InputData inputdata= readFile("src/input/5tUPDATE/TerminalB_20_10_3_2_160.json");
         Target target = readFileTarget("src/input/5tUPDATE/targetTerminalB_20_10_3_2_160UPDATE.json");
+        /*InputData inputdata= readFile("src/input/6t/Terminal_10_10_3_1_100.json");
+        Target target = readFileTarget("src/input/6t/targetTerminal_10_10_3_1_100.json");*/
 
         inputdata.initAssignment();
         inputdata.modifyInputData();
@@ -181,9 +187,10 @@ public class Main {
             }
 
             double[] overlappingArea = calculateSharedInterval(cranes);
+            double extra = container.getLength()/2;
 
-            Crane craneToUse = getBestFittingCrane(overlappingArea, beginSlot, endSlot);
             Log log = new Log();
+            Crane craneToUse = getBestFittingCrane(overlappingArea, beginSlot, endSlot, extra);
             log.setCraneId(craneToUse.getId());
             log.setContainerId(assignment.getContainer_id());
 
@@ -250,7 +257,7 @@ public class Main {
                             for(int j=0;j<possibleFreeSlots.size();j++) {
                                 Slot slot2= slotsMap.get(possibleFreeSlots.get(j));
                                 assert slot2 != null;
-//                                targetSlotIDs.add(slot2.getId());
+
                                 if(slot1.getX()+1 == slot2.getX()&& slot1.getY() ==slot2.getY()) {
                                     targetSlotIDs.add(slot2.getId());
                                     int extra = container.getLength()/2;
@@ -299,6 +306,7 @@ public class Main {
                                         targetSlotIDs.add(slot2.getId());
                                         targetSlotIDs.add(slot3.getId());
 
+                                    if(slot1.getX()+1 == slot2.getX() && slot2.getX()+1 == slot3.getX()) {
                                         int extra = container.getLength()/2;
                                         Coordinate containerEnd = new Coordinate(slot1.getX()+extra,slot1.getY()+0.5);
                                         // Verplaats container
