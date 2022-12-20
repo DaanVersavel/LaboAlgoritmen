@@ -1,6 +1,4 @@
 
-_
-/src/input/5t/targetTerminalB_20_10_3_2_160.json,b\8\b81c7f9724144fbee1d4199c7b601d27657793df
 :
 
 Kranen.iml,a\0\a0686cb60a94554d865422f9be820c4f12f0b28a
@@ -16,8 +14,6 @@ Y
 )src/input/3t/TerminalA_20_10_3_2_160.json,d\6\d64a8fc45e4bd80d13bc607916a06271ee5e761e
 _
 /src/input/3t/targetTerminalA_20_10_3_2_160.json,9\e\9ea2141ab605a224ce1ad30c351dfe4394d1ec0b
-<
-src/Log.java,6\4\644906b6c50c8fe21e6d07d0b2a767b5277c6c75
 B
 src/Container.java,b\f\bf5c2a5d3690924b617b64cac10d1fa1460318dc
 C
@@ -30,3 +26,27 @@ G
 src/ContainerField.java,7\e\7ee6e40666236ec384a7d7182958d5329c60e60c
 >
 src/Crane.java,9\a\9a44b44a1ac2be45e8824fa9ccc739f311c2a6d0
+I
+src/CoordinateSystem.java,f\d\fd9e86030269dc5aa6d7b123f402ed4782a2b701
+=
+src/Slot.java,5\4\54aeb8e245af08e570185c54f125ed5bef9bd34d
+l
+<src/input/instances7_10/7t/targetTerminalC_10_10_3_2_80.json,f\a\fa2d8269cba8ad0419ba42d733590a5c8a6a2885
+f
+6src/input/instances7_10/7t/TerminalC_10_10_3_2_80.json,0\2\02a4e99a615edd4e5f76cf12e0d46d2485a857c3
+l
+<src/input/instances7_10/8t/targetTerminalC_10_10_3_2_80.json,2\9\2934b995ca856a3b65982b875c78ddae4a075317
+f
+6src/input/instances7_10/8t/TerminalC_10_10_3_2_80.json,d\3\d3697881f867e29c22eaf6025fe5e2cac6359867
+g
+7src/input/instances7_10/9t/TerminalC_10_10_3_2_100.json,9\5\95b44b6cfe3bb9ff34ae5c951946b2cf091747d9
+m
+=src/input/instances7_10/9t/targetTerminalC_10_10_3_2_100.json,4\5\457e5e28084d9800ef012dab143451f25985c605
+h
+8src/input/instances7_10/10t/TerminalC_10_10_3_2_100.json,8\3\83308ca43e8a05152352f6db231d59f7ce223ac3
+n
+>src/input/instances7_10/10t/targetTerminalC_10_10_3_2_100.json,2\4\24e01e4eb023aacef4b9a34b790aab38cb8d1bf5
+^
+.src/input/6t/targetTerminal_10_10_3_1_100.json,1\a\1af453fefc3de3ce7830297f032d149eebfb578e
+X
+(src/input/6t/Terminal_10_10_3_1_100.json,0\9\097263a501e8777dbaa33f59f103a6c0246702d2
