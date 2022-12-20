@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -139,10 +138,10 @@ public class Main {
 
         /*InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
         Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");*/
-        InputData inputdata= readFile("src/input/3t/TerminalA_20_10_3_2_160.json");
-        Target target = readFileTarget("src/input/3t/targetTerminalA_20_10_3_2_160.json");
-        /*InputData inputdata= readFile("src/input/5t/TerminalB_20_10_3_2_160.json");
-        Target target = readFileTarget("src/input/5t/targetTerminalB_20_10_3_2_160.json");*/
+        /*InputData inputdata= readFile("src/input/3t/TerminalA_20_10_3_2_160.json");
+        Target target = readFileTarget("src/input/3t/targetTerminalA_20_10_3_2_160.json");*/
+        InputData inputdata= readFile("src/input/5tUPDATE/TerminalB_20_10_3_2_160.json");
+        Target target = readFileTarget("src/input/5tUPDATE/targetTerminalB_20_10_3_2_160UPDATE.json");
 
         inputdata.initAssignment();
         inputdata.modifyInputData();
