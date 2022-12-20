@@ -1,6 +1,4 @@
 
-C
-src/Trajectory.java,d\e\deedcfb2b9d66efa46e8c7a860890acdd73b4fce
 _
 /src/input/5t/targetTerminalB_20_10_3_2_160.json,b\8\b81c7f9724144fbee1d4199c7b601d27657793df
 :
@@ -10,5 +8,3 @@ Y
 )src/input/1t/TerminalA_20_10_3_2_100.json,7\0\70ee5c57a92d2a81ce492dcf39fb0f14cbd67254
 _
 /src/input/1t/targetTerminalA_20_10_3_2_100.json,7\0\70e3d6dc6fc314c0c35a88e9305fddebde7ce382
-S
-#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0

@@ -65,7 +65,7 @@ public class CoordinateSystem {
     }
 
     // Safety for cranes
-    public boolean isSafe(ArrayList<Coordinate> trajectory1, ArrayList<Coordinate> trajectory2) {
+    /*public boolean isSafe(ArrayList<Coordinate> trajectory1, ArrayList<Coordinate> trajectory2) {
         // Aannames:
         // Beide trajectorys even lang en chronologisch geordend
         // Kranen kunnen elkaar niet voorbij gaan
@@ -78,7 +78,7 @@ public class CoordinateSystem {
             }
         }
         return true;
-    }
+    }*/
 
     public Coordinate getCoordinate(int key) {
         return coordinates.get(key);

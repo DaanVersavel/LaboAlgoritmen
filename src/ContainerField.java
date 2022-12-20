@@ -114,7 +114,7 @@ public class ContainerField {
     public void moveContainer(int container_id,ArrayList<Integer> destinationSlot_ids){
         ArrayList<Slot> sourceSlots = new ArrayList<>();
         ArrayList<Slot> destinationSlots = new ArrayList<>();
-        //TODO is dit niet nutteloos eigenlijk dat eerst toevoegen aan lijst om ze dan aantepassen
+        // TODO is dit niet nutteloos eigenlijk dat eerst toevoegen aan lijst om ze dan aantepassen
         // Update stack of source slots
         for (Slot s: slots.values()) {
             if (s.getStack().contains(container_id)) sourceSlots.add(s);
@@ -128,7 +128,6 @@ public class ContainerField {
                 }
             }
         }
-//        for(int ds_id: destinationSlot_ids) {destinationSlots.add(slots.get(ds_id));
         for (Slot ds: destinationSlots) ds.addContainer(container_id);
     }
 

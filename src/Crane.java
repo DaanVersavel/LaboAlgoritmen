@@ -39,13 +39,13 @@ public class Crane {
         Coordinate beginCoordinate = coordinaatSystem.getCoordinate(highestKey);
         // Move crane 2 out overlapping area
         if(getXmax() > sharedInterval[1]) {
-            setX(sharedInterval[1]+1);
+            setX(sharedInterval[1]+2);
             Coordinate targetCoordinate = new Coordinate(sharedInterval[1]+1, getY());
             timeCrane+= coordinaatSystem.movement(timeCrane,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
         }
         // Move crane 1 out overlapping area
         else {
-            setX(sharedInterval[0]-1);
+            setX(sharedInterval[0]-2);
             Coordinate targetCoordinate = new Coordinate(sharedInterval[0]-1 ,getY());
             timeCrane += coordinaatSystem.movement(timeCrane,beginCoordinate,targetCoordinate, getXspeed(), getYspeed());
         }
