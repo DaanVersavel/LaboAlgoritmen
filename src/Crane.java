@@ -10,7 +10,6 @@ public class Crane {
     private double yspeed;
     private double xmax;
     private double xmin;
-
     private int timeCrane;
     private CoordinateSystem coordinaatSystem;
 

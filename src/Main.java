@@ -158,7 +158,6 @@ public class Main {
         while(!assignments.isEmpty()){
             Assignment assignment = assignments.remove(0);
             Map<Integer, Slot> slotsMap = containerField.getSlots();
-            Log log = new Log();
 
             //for loop for finding most left startslot with slot_id
             Slot beginSlot= null;
@@ -184,6 +183,7 @@ public class Main {
             double[] overlappingArea = calculateSharedInterval(cranes);
 
             Crane craneToUse = getBestFittingCrane(overlappingArea, beginSlot, endSlot);
+            Log log = new Log();
             log.setCraneId(craneToUse.getId());
             log.setContainerId(assignment.getContainer_id());
 
@@ -216,8 +216,8 @@ public class Main {
                     if(container.getLength()==1) {
                         boolean containermoved=true;
                         // Check free slots in overlapping area
-                        ArrayList<Integer> targetSlotIDs = new ArrayList<>();
                         while(!possibleFreeSlots.isEmpty() && containermoved) {
+                            ArrayList<Integer> targetSlotIDs = new ArrayList<>();
                             int slotId= possibleFreeSlots.get(0);
                             targetSlotIDs.add(slotId);
                             if(containerField.canMoveContainer(assignment.getContainer_id(),targetSlotIDs)) {
@@ -242,17 +242,17 @@ public class Main {
                         //2 op elkaar volgende sloten
                         boolean containermoved=false;
                         // Check free slots in overlapping area
-                        ArrayList<Integer> targetSlotIDs = new ArrayList<>();
                         for(int i=0;i<possibleFreeSlots.size();i++) {
+                            ArrayList<Integer> targetSlotIDs = new ArrayList<>();
                             Slot slot1= slotsMap.get(possibleFreeSlots.get(i));
                             assert slot1 != null;
                             targetSlotIDs.add(slot1.getId());
                             for(int j=0;j<possibleFreeSlots.size();j++) {
                                 Slot slot2= slotsMap.get(possibleFreeSlots.get(j));
                                 assert slot2 != null;
-                                targetSlotIDs.add(slot2.getId());
-
-                                if(slot1.getX()+1 == slot2.getX()) {
+//                                targetSlotIDs.add(slot2.getId());
+                                if(slot1.getX()+1 == slot2.getX()&& slot1.getY() ==slot2.getY()) {
+                                    targetSlotIDs.add(slot2.getId());
                                     int extra = container.getLength()/2;
                                     Coordinate containerEnd = new Coordinate(slot1.getX()+extra,slot1.getY()+0.5);
                                     // Verplaats container
@@ -283,21 +283,22 @@ public class Main {
                         //3 op elkaar volgende sloten
                         boolean containermoved=false;
                         // Check free slots in overlapping area
-                        ArrayList<Integer> targetSlotIDs = new ArrayList<>();
                         for(int i=0; i<possibleFreeSlots.size(); i++) {
+                            ArrayList<Integer> targetSlotIDs = new ArrayList<>();
                             Slot slot1= slotsMap.get(possibleFreeSlots.get(i));
                             assert slot1 != null;
                             targetSlotIDs.add(slot1.getId());
                             for(int j=0; j<possibleFreeSlots.size(); j++) {
                                 Slot slot2= slotsMap.get(possibleFreeSlots.get(j));
                                 assert slot2 != null;
-                                targetSlotIDs.add(slot2.getId());
                                 for (int k=0; k<possibleFreeSlots.size(); k++) {
                                     Slot slot3= slotsMap.get(possibleFreeSlots.get(k));
                                     assert slot3 != null;
-                                    targetSlotIDs.add(slot3.getId());
+                                    //TODO checken op Y value ook aangepast in de lengte 2
+                                    if(slot1.getX()+1 == slot2.getX() && slot2.getX()+1 == slot3.getX() && slot1.getY()==slot2.getY() &&slot2.getY()== slot3.getY()) {
+                                        targetSlotIDs.add(slot2.getId());
+                                        targetSlotIDs.add(slot3.getId());
 
-                                    if(slot1.getX()+1 == slot2.getX() && slot2.getX()+1 == slot3.getX()) {
                                         int extra = container.getLength()/2;
                                         Coordinate containerEnd = new Coordinate(slot1.getX()+extra,slot1.getY()+0.5);
                                         // Verplaats container

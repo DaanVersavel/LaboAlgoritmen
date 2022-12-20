@@ -23,13 +23,11 @@ public class CoordinateSystem {
         //Calculation y
         double dy= Math.abs(c2.getYCoordinate() - c1.getYCoordinate()) ;
         int timey2= (int) (dy/vy);
-
         int time2;
         if(timex2>timey2){
             time2=timex2;
         }
         else time2=timey2;
-
         addCoordinate(time2, c2);
         return time2;
     }
