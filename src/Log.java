@@ -3,6 +3,7 @@ public class Log {
     private int containerId;
     private int pickUpTime;
     private int endTime;
+    private int containerLength;
     private double pickUpPositionX;
     private double pickUpPositionY;
     private double endPositionX;
@@ -19,6 +20,14 @@ public class Log {
 
     public Boolean getInterval() {
         return interval;
+    }
+
+    public int getContainerLength() {
+        return containerLength;
+    }
+
+    public void setContainerLength(int containerLength) {
+        this.containerLength = containerLength;
     }
 
     public void setInterval(Boolean interval) {
@@ -86,7 +95,7 @@ public class Log {
     }
 
     public void printLog() {
-        System.out.println("CraneID:"+craneId+", ContainerID:"+containerId+", PickupTime:"+pickUpTime+", EndTime: "+endTime+", PickupPositionX:"+
+        System.out.println("CraneID:"+craneId+", ContainerID:"+containerId+", ContainerLength:"+containerLength+", PickupTime:"+pickUpTime+", EndTime: "+endTime+", PickupPositionX:"+
                 pickUpPositionX+", PickupPositionY:"+pickUpPositionY+", EndPositionX:"+endPositionX+", EndPositionY:"+endPositionY+", Interval: "+interval);
     }
 

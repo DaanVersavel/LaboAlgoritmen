@@ -11,6 +11,8 @@ public class InputData {
     private int length;
     @SerializedName("width")
     private int width;
+    @SerializedName("targetheight")
+    private int targetheight=0;
     @SerializedName("maxheight")
     private int maxheight;
 
@@ -91,6 +93,7 @@ public class InputData {
     public void modifyInputData(){
         makeContainerMap();
         makeSlotsMap();
+
         for(Crane crane : cranes) {
             crane.init();
         }
@@ -114,48 +117,19 @@ public class InputData {
                 }
             }
         }
-//        for(Assignment assignment : assignments) {
-//            int containerId = assignment.getContainer_id();
-//            for(Container container : containers) {
-//                if(container.getId() == containerId) {
-//                    for(Slot slot : slots) {
-//                        if(assignment.getSlot_id() == slot.getId()) {
-//                            startSlot=slot;
-//                        }
-//                    }
-//                    //container en assignment
-//            int containerLength= container.getLength();
-//            assignment.getSlot_idArray().add(assignment.getSlot_id());
-//            //Gaan ervan uit dat max 2 lengte
-//            if(containerLength==2){
-//                for(Slot slot : slots) {
-//                    if(slot.getY() == startSlot.getY() &&
-//                            slot.getId() != startSlot.getId() &&
-//                            slot.getX() == startSlot.getX()+1) {
-//                        //if we find next slot
-//                        assignment.getSlot_idArray().add(slot.getId());
-//                    }
-//                }
-//            }
-////                    for( int i = 0; i < containerLength; i++ ) {
-////                        for(Slot slot : slots) {
-////                            if(slot.getY() == startSlot.getY() &&
-////                                    slot.getId() != startSlot.getId() &&
-////                                    slot.getX() == startSlot.getX()+1) {
-////                                //if we find next slot
-////                                assignment.getSlot_idArray().add(slot.getId());
-////                                startSlot=slot;
-////                            }
-////                        }
-////                    }
-//
-//            }
-//        }
     }
 
     public void initAssignment() {
         for(Assignment assignment : assignments) {
             assignment.init();
         }
+    }
+
+    public int getTargetheight() {
+        return targetheight;
+    }
+
+    public void setTargetheight(int targetheight) {
+        this.targetheight = targetheight;
     }
 }
