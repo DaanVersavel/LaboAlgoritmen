@@ -14,6 +14,13 @@ public class Log {
         interval=false;
     }
 
+    public Log(int craneId, int containerId, int containerLength){
+        this.craneId=craneId;
+        this.containerId=containerId;
+        this.containerLength=containerLength;
+        interval=false;
+    }
+
     public int getCraneId() {
         return craneId;
     }

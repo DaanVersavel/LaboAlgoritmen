@@ -112,7 +112,7 @@ public class ContainerField {
         if(!canPlaceContainer(destinationSlotIDS)) return -2;
         return -1;
         //return -1 als we hem kunnen verplaatsen
-        //return -2 als we hem nit kunnen plaaatsen
+        //return -2 als we hem niet kunnen platsen
         //return 0 of hoger als we de containers er boven moeten verplaatsen
     }
 
@@ -238,10 +238,14 @@ public class ContainerField {
 
     //TODO niet algemeen maar weet niks beters
     public ArrayList<Integer> findFreeSlotsEverywhere(int length, Map<Integer,Slot> slotsMap) {
+        ArrayList<Integer> freeSlots= new ArrayList<>();
+
         if(length==1){
             for(Slot slot : slotsMap.values()){
+                freeSlots= new ArrayList<>();
                 if(slot.getStack().size()==1) {
-                    return new ArrayList<>(slot.getId());
+                    freeSlots.add(slot.getId());
+                    return freeSlots;
                 }
             }
         }
@@ -250,7 +254,7 @@ public class ContainerField {
                 for (Slot slot2 : slotsMap.values()){
                     if(slot1.getStack().size() == 1&& slot2.getStack().size() == 1
                             && slot1.getX()+1 == slot2.getX() && slot1.getY() ==slot2.getY()){
-                        ArrayList<Integer> freeSlots= new ArrayList<>();
+                        freeSlots= new ArrayList<>();
                         freeSlots.add(slot1.getId());
                         freeSlots.add(slot2.getId());
                         return freeSlots;
@@ -263,12 +267,12 @@ public class ContainerField {
         if(length==3) {
             for (Slot slot1 : slotsMap.values()) {
                 for (Slot slot2 : slotsMap.values()){
-                    if(slot1.getStack().size() == 1&& slot2.getStack().size() == 1
+                    if(slot1.getStack().size() == slot2.getStack().size()
                             && slot1.getX()+1 == slot2.getX() && slot1.getY() ==slot2.getY()){
                         for(Slot slot3 : slotsMap.values()){
                             if(slot2.getStack().size() ==slot3.getStack().size() &&
                                     slot2.getX()+1==slot3.getX() && slot2.getY()==slot3.getY()){
-                                ArrayList<Integer> freeSlots= new ArrayList<>();
+                                freeSlots= new ArrayList<>();
                                 freeSlots.add(slot1.getId());
                                 freeSlots.add(slot2.getId());
                                 freeSlots.add(slot3.getId());
@@ -281,5 +285,108 @@ public class ContainerField {
         }
 
         return new ArrayList<>();
+    }
+
+    public Log moveMidLength2(Log log,ArrayList<Integer> possibleFreeSlots, Crane craneToUse, Assignment assignment, double extra, Coordinate begin ) {
+        //2 op elkaar volgende sloten
+        boolean containermoved = false;
+        // Check free slots in overlapping area
+        for (int i = 0; i < possibleFreeSlots.size(); i++) {
+            ArrayList<Integer> targetSlotIDs = new ArrayList<>();
+            Slot slot1 = slots.get(possibleFreeSlots.get(i));
+            assert slot1 != null;
+            targetSlotIDs.add(slot1.getId());
+            for (int j = 0; j < possibleFreeSlots.size(); j++) {
+                Slot slot2 = slots.get(possibleFreeSlots.get(j));
+                assert slot2 != null;
+
+                if (slot1.getX() + 1 == slot2.getX() && slot1.getY() == slot2.getY()) {
+                    targetSlotIDs.add(slot2.getId());
+                    Coordinate containerEnd = new Coordinate(slot1.getX()+extra, slot1.getY() + 0.5);
+                    // Verplaats container
+                    log.setPickUpTime(craneToUse.getTimeCrane());
+                    containermoved = craneToUse.doAssignement(this, assignment.getContainerID(), targetSlotIDs, begin, containerEnd);
+                    if (containermoved) {
+                        log.addPositions(begin, containerEnd);
+                        log.setEndTime(craneToUse.getTimeCrane());
+                        Main.updateCraneTime(craneToUse);
+//                        logs.add(log);
+                        break;
+                    } else {targetSlotIDs.clear();}
+                }
+            }
+            //for loop stoppen als we container verplaatst hebben
+            if (containermoved) {break;}
+        }
+        return log;
+    }
+
+    public Log moveMidLength1(Log log, ArrayList<Integer> possibleFreeSlots,Crane craneToUse, Assignment assignment,Coordinate begin) {
+        boolean containermoved = true;
+        // Check free slots in overlapping area
+        while (!possibleFreeSlots.isEmpty() && containermoved) {
+            ArrayList<Integer> targetSlotIDs = new ArrayList<>();
+            int slotId = possibleFreeSlots.get(0);
+            targetSlotIDs.add(slotId);
+            if (canMoveContainer(assignment.getContainerID(), targetSlotIDs)) {
+                Slot targetSlotShared = slots.get(slotId);
+                //container length is 1 so
+                Coordinate containerEnd = new Coordinate(targetSlotShared.getX() + 0.5, targetSlotShared.getY() + 0.5);
+                // verplaats container
+                log.setPickUpTime(craneToUse.getTimeCrane());
+                craneToUse.doAssignement(this, assignment.getContainerID(), targetSlotIDs, begin, containerEnd);
+                Main.updateCraneTime(craneToUse);
+                log.addPositions(begin, containerEnd);
+                log.setEndTime(craneToUse.getTimeCrane());
+                //if container moved we can stop for loop
+                containermoved = false;
+//                logs.add(log);
+            }
+        }
+        return log;
+    }
+
+    public Log moveMidLength3(Log log, ArrayList<Integer> possibleFreeSlots, Crane craneToUse, Assignment assignment, double extra, Coordinate begin) {
+        //3 op elkaar volgende sloten
+        boolean containermoved = false;
+        // Check free slots in overlapping area
+        for (int i = 0; i < possibleFreeSlots.size(); i++) {
+            ArrayList<Integer> targetSlotIDs = new ArrayList<>();
+            Slot slot1 = slots.get(possibleFreeSlots.get(i));
+            assert slot1 != null;
+            targetSlotIDs.add(slot1.getId());
+            for (int j = 0; j < possibleFreeSlots.size(); j++) {
+                Slot slot2 = slots.get(possibleFreeSlots.get(j));
+                assert slot2 != null;
+                for (int k = 0; k < possibleFreeSlots.size(); k++) {
+                    Slot slot3 = slots.get(possibleFreeSlots.get(k));
+                    assert slot3 != null;
+
+                    if (slot1.getX() + 1 == slot2.getX() && slot2.getX() + 1 == slot3.getX() && slot1.getY() == slot2.getY() && slot2.getY() == slot3.getY()) {
+                        targetSlotIDs.add(slot2.getId());
+                        targetSlotIDs.add(slot3.getId());
+
+                        if (slot1.getX() + 1 == slot2.getX() && slot2.getX() + 1 == slot3.getX()) {
+                            Coordinate containerEnd = new Coordinate(slot1.getX() + extra, slot1.getY() + 0.5);
+                            // Verplaats container
+                            log.setPickUpTime(craneToUse.getTimeCrane());
+                            containermoved = craneToUse.doAssignement(this, assignment.getContainerID(), targetSlotIDs, begin, containerEnd);
+                            if (containermoved) {
+                                log.addPositions(begin, containerEnd);
+                                log.setEndTime(craneToUse.getTimeCrane());
+                                Main.updateCraneTime(craneToUse);
+//                                logs.add(log);
+                                break;
+                            } else {
+                                targetSlotIDs.clear();
+                            }
+                        }
+                    }
+                    //for loop stoppen als we container verplaatst hebben
+                    if (containermoved) {break;}
+                }
+            }
+        }
+        return log;
     }
 }

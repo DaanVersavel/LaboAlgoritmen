@@ -32,6 +32,17 @@ public class Slot {
         return (id == c.id && x == c.x && y == c.y &&maxHeight ==c.maxHeight
                 && stack.equals(c.stack));
     }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + x;
+        result = prime * result + y;
+        result = prime * result + maxHeight;
+        result = prime * result + stack.hashCode();
+        return result;
+    }
 
     // Doordat we de constructor eigenlijk niet gebruiken wordt de stack nooit geïnitialiseerd.
     public void initialiseStack() {
