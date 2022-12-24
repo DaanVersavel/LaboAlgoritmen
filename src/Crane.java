@@ -18,14 +18,14 @@ public class Crane {
     }
 
 
-    public boolean doAssignement(ContainerField containerField, int containerId, ArrayList<Integer> destinationSlot_ids,
+    public boolean doAssignement(ContainerField containerField, int containerId, ArrayList<Integer> destinationSlotIDS,
                               Coordinate beginCrane, Coordinate endCrane)
     {
-        boolean canmove= containerField.canMoveContainer(containerId,destinationSlot_ids);
+        boolean canmove= containerField.canMoveContainer(containerId,destinationSlotIDS);
         //if canmove container
         if(canmove) {
             //move container
-            containerField.moveContainer(containerId,destinationSlot_ids);
+            containerField.moveContainer(containerId,destinationSlotIDS);
             //update crane trajectory
             timeCrane+= coordinaatSystem.movement(timeCrane, beginCrane, endCrane, getXspeed(), getYspeed());
             return true;

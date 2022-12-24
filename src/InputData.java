@@ -99,8 +99,8 @@ public class InputData {
         }
 
         for(Assignment assignment : assignments) {
-            int firstslotID = assignment.getSlot_id();
-            Container container = containersMap.get(assignment.getContainer_id());
+            int firstslotID = assignment.getSlotID();
+            Container container = containersMap.get(assignment.getContainerID());
 
             //assign first slot
             assignment.getSlot_idArray().add(firstslotID);

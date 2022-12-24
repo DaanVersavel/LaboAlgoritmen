@@ -1,22 +1,22 @@
 import java.util.ArrayList;
 
 public class Trajectory {
-    private ArrayList<Coordinate> trajectory;
+    private ArrayList<Coordinate> trajectoryCoordinates;
 
     public Trajectory(){
-        this.trajectory = new ArrayList<>();
+        this.trajectoryCoordinates = new ArrayList<>();
     }
 
     public void addToTrajectory(Coordinate c) {
-        trajectory.add(c);
+        trajectoryCoordinates.add(c);
     }
 
-    public ArrayList getTrajectory() {
-        return trajectory;
+    public ArrayList<Coordinate> getTrajectory() {
+        return trajectoryCoordinates;
     }
 
     public void printTrajectory() {
-        for(Coordinate c: trajectory) {
+        for(Coordinate c: trajectoryCoordinates) {
             System.out.println("(" + c.getXCoordinate() + "," + c.getYCoordinate() + ")");
         }
     }

@@ -42,7 +42,7 @@ public class CoordinateSystem {
         return max;
     }
 
-    public ArrayList<Coordinate> getTrajectory() {
+    public List<Coordinate> getTrajectory() {
         Trajectory traj = new Trajectory();
         Coordinate tempCoordinate= null;
         for(int i=0; i<getHighestKey(); i++) {
@@ -61,22 +61,6 @@ public class CoordinateSystem {
     public Map<Integer, Coordinate> getCoordinates() {
         return coordinates;
     }
-
-    // Safety for cranes
-    /*public boolean isSafe(ArrayList<Coordinate> trajectory1, ArrayList<Coordinate> trajectory2) {
-        // Aannames:
-        // Beide trajectorys even lang en chronologisch geordend
-        // Kranen kunnen elkaar niet voorbij gaan
-        // Crane 1 zit op linker helft, kraan 2 zit op rechter helft
-        int safetyDistance = 1;
-        for(int i=0; i<trajectory1.size(); i++) {
-            if(((trajectory2.get(i).getXCoordinate()-trajectory1.get(i).getXCoordinate()) < safetyDistance) ||
-                    (trajectory1.get(i).getXCoordinate() > trajectory2.get(i).getXCoordinate()))  {
-                return false;
-            }
-        }
-        return true;
-    }*/
 
     public Coordinate getCoordinate(int key) {
         return coordinates.get(key);

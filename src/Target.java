@@ -40,13 +40,13 @@ public class Target {
 
     public void modifyTargetData(Map<Integer, Slot> slots, Map<Integer,Container> containers) {
         for(Assignment assignment: assignments) {
-            int firstslotID = assignment.getSlot_id();
-            Container container = containers.get(assignment.getContainer_id());
+            int firstslotID = assignment.getSlotID();
+            Container container = containers.get(assignment.getContainerID());
 
             //assign first slot
             assignment.getSlot_idArray().add(firstslotID);
 
-            Slot previousSlot= slots.get(assignment.getSlot_id());
+            Slot previousSlot= slots.get(assignment.getSlotID());
             int lengthToGo= container.getLength()-1;
             for(int i=0;i<lengthToGo;i++){
                 for(Slot slot : slots.values()){
@@ -57,12 +57,6 @@ public class Target {
                     }
                 }
             }
-
-//            if(c.getLength()==2){
-//                for(Slot slot: slots.values()) {
-//                    if(s1.getX()+1==slot.getX() &&s1.getId()!=slot.getId()) assignment.getSlot_idArray().add(slot.getId());
-//                }
-//            }
 
         }
     }

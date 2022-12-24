@@ -5,66 +5,58 @@ public class ContainerField {
     private Map<Integer,Container> containers;
     private Map<Integer, Slot> slots;
     private ArrayList<Assignment> assignments;
-    private int maxHeight;
 
     //works only if there are no missing containers
-    ContainerField(Map<Integer,Container>containers, Map<Integer, Slot>slots, ArrayList<Assignment>assignments, int maxheight){
+    ContainerField(Map<Integer,Container>containers, Map<Integer, Slot>slots, ArrayList<Assignment>assignments){
         this.containers = containers;
         this.slots = slots;
         this.assignments = assignments;
-        this.maxHeight = maxheight;
         placeContainers();
     }
 
     private void  placeContainers(){
         for(Assignment a : assignments){
-            int cont_id = a.getContainer_id();
-            ArrayList<Integer> slot_ids= a.getSlot_idArray();
+            int contID = a.getContainerID();
+            ArrayList<Integer> slotIDS= a.getSlot_idArray();
 
-            for (int slot_id: slot_ids) {
+            for (int slot_id: slotIDS) {
                 Slot s= slots.get(slot_id);
-                s.addContainer(cont_id);
-//                for(Slot slot : slots){
-//                    if(slot.getId() ==slot_id) slot.addContainer(cont_id);
-//                }
+                s.addContainer(contID);
             }
         }
     }
 
-    public boolean canRemoveContainer(int container_id) {
+    public boolean canRemoveContainer(int containerID) {
         ArrayList<Slot> containerSlots = new ArrayList<>();
 
         for(Slot slot: slots.values()) {
-            if(slot.getStack().contains(container_id)) containerSlots.add(slot);
+            if(slot.getStack().contains(containerID)) containerSlots.add(slot);
         }
 
         for(Slot slot: containerSlots) {
-            if(slot.getTopContainer() != container_id) return false;
+            if(slot.getTopContainer() != containerID) return false;
         }
         return true;
     }
-    public int canRemoveContainer2(int container_id) {
+    public int canRemoveContainer2(int containerID) {
         ArrayList<Slot> containerSlots = new ArrayList<>();
 
         for(Slot slot: slots.values()) {
-            if(slot.getStack().contains(container_id)) containerSlots.add(slot);
+            if(slot.getStack().contains(containerID)) containerSlots.add(slot);
         }
 
         for(Slot slot: containerSlots) {
-            if(slot.getTopContainer() != container_id) return slot.getStack().search(container_id);
+            if(slot.getTopContainer() != containerID) return slot.getStack().search(containerID);
         }
         return -1;
     }
 
-    public boolean canPlaceContainer(int container_id,ArrayList<Integer> destinationSlot_ids) {
+    public boolean canPlaceContainer(ArrayList<Integer> destinationSlotIDS) {
         ArrayList<Slot> destinationSlots =  new ArrayList<>();
-        for (Integer slotid: destinationSlot_ids){
+        //Look for destionation slots and put in arraylist
+        for (Integer slotid: destinationSlotIDS){
             Slot s = slots.get(slotid);
             destinationSlots.add(s);
-            //destinationSlots.add(slots.get(i-1));
-//            for(Slot slot : slots){
-//                if(slot.getId()==slotid) destinationSlots.add(slot);
-//            }
         }
         //check if not surpass Maxheight
         for(Slot s : destinationSlots){
@@ -72,14 +64,14 @@ public class ContainerField {
         }
         //check if slots have same height
         Slot s1= destinationSlots.get(0);
-        for(int i=1;i<destinationSlot_ids.size();i++){
+        for(int i=1;i<destinationSlotIDS.size();i++){
             if(s1.getStack().size() != destinationSlots.get(i).getStack().size()) return false;
         }
         //if all slots have same container id then we can place them
         s1= destinationSlots.get(0);
         int temp=0;
         if(!s1.getStack().isEmpty()){
-            for(int i=1;i<destinationSlot_ids.size();i++){
+            for(int i=1;i<destinationSlotIDS.size();i++){
                 if(!destinationSlots.get(i).getStack().isEmpty()){
                     if(s1.getTopContainer()==destinationSlots.get(i).getTopContainer()) {
                         temp++;
@@ -106,18 +98,18 @@ public class ContainerField {
         return true;
     }
 
-    public boolean canMoveContainer(int container_id, ArrayList<Integer> destinationSlot_ids) {
+    public boolean canMoveContainer(int containerID, ArrayList<Integer> destinationSlotIDS) {
         // Check if replacement is possible
-        if(!canRemoveContainer(container_id) || !canPlaceContainer(container_id, destinationSlot_ids))
+        if(!canRemoveContainer(containerID) || !canPlaceContainer(destinationSlotIDS))
             return false;
         return true;
     }
-    public int canMoveContainer2(int container_id, ArrayList<Integer> destinationSlot_ids) {
+    public int canMoveContainer2(int containerID, ArrayList<Integer> destinationSlotIDS) {
         // Check if replacement is possible
         //-1 if we can remove container
-        int canRemoveContainer=canRemoveContainer2(container_id);
+        int canRemoveContainer=canRemoveContainer2(containerID);
         if(canRemoveContainer!=-1) return canRemoveContainer;
-        if(!canPlaceContainer(container_id, destinationSlot_ids)) return -2;
+        if(!canPlaceContainer(destinationSlotIDS)) return -2;
         return -1;
         //return -1 als we hem kunnen verplaatsen
         //return -2 als we hem nit kunnen plaaatsen
@@ -125,24 +117,20 @@ public class ContainerField {
     }
 
 
-    public void moveContainer(int container_id,ArrayList<Integer> destinationSlot_ids){
-        ArrayList<Slot> sourceSlots = new ArrayList<>();
+    public void moveContainer(int containerID,ArrayList<Integer> destinationSlotIDS){
         ArrayList<Slot> destinationSlots = new ArrayList<>();
-        // TODO is dit niet nutteloos eigenlijk dat eerst toevoegen aan lijst om ze dan aantepassen
-        // Update stack of source slots
         for (Slot s: slots.values()) {
-            if (s.getStack().contains(container_id)) sourceSlots.add(s);
+            if (s.getStack().contains(containerID)) s.removeTopContainer();
         }
-        for (Slot ss: sourceSlots) ss.removeTopContainer();
         // Update stack of destination slots
         for(Slot s: slots.values()){
-            for(int id: destinationSlot_ids){
+            for(int id: destinationSlotIDS){
                 if(s.getId() == id){
                     destinationSlots.add(s);
                 }
             }
         }
-        for (Slot ds: destinationSlots) ds.addContainer(container_id);
+        for (Slot ds: destinationSlots) ds.addContainer(containerID);
     }
 
     public ArrayList<Integer> findBestTargetSlot1(int targetHeight, Integer containerId) {
@@ -150,7 +138,6 @@ public class ContainerField {
         int level=0; //no container placed
         ArrayList<Integer> destinationSlotID = new ArrayList<>();
         //start at bottom
-//        ArrayList<Integer> destinationSlot;
         while(!found &&level<=targetHeight-1){
             for(Slot s: slots.values()){
                 destinationSlotID = new ArrayList<>();
@@ -182,7 +169,6 @@ public class ContainerField {
                             destinationSlotID.add(s1.getId());
                             destinationSlotID.add(s2.getId());
                             if(canMoveContainer(containerId,destinationSlotID)){
-//                                firstEndslot=s1;
                                 found = true;
                                 break;
                             }
@@ -211,7 +197,6 @@ public class ContainerField {
                                 destinationSlotID.add(s2.getId());
                                 destinationSlotID.add(s3.getId());
                                 if(canMoveContainer(containerId,destinationSlotID)){
-//                                firstEndslot=s1;
                                     found = true;
                                     break;
                                 }
@@ -290,13 +275,11 @@ public class ContainerField {
                                 return freeSlots;
                             }
                         }
-
                     }
                 }
-
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 }

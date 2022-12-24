@@ -1,4 +1,3 @@
-import java.util.Objects;
 import java.util.Stack;
 
 public class Slot {
@@ -36,7 +35,7 @@ public class Slot {
 
     // Doordat we de constructor eigenlijk niet gebruiken wordt de stack nooit geïnitialiseerd.
     public void initialiseStack() {
-        this.stack = new Stack<Integer>();
+        this.stack = new Stack<>();
     }
     public void initialiseMaxHeight() { this.maxHeight = 3; }
 
