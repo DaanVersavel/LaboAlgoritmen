@@ -112,7 +112,7 @@ public class ContainerField {
         if(!canPlaceContainer(destinationSlotIDS)) return -2;
         return -1;
         //return -1 als we hem kunnen verplaatsen
-        //return -2 als we hem niet kunnen platsen
+        //return -2 als we hem niet kunnen plaatsen
         //return 0 of hoger als we de containers er boven moeten verplaatsen
     }
 
@@ -236,10 +236,8 @@ public class ContainerField {
         this.assignments = assignments;
     }
 
-    //TODO niet algemeen maar weet niks beters
     public ArrayList<Integer> findFreeSlotsEverywhere(int length, Map<Integer,Slot> slotsMap) {
-        ArrayList<Integer> freeSlots= new ArrayList<>();
-
+        ArrayList<Integer> freeSlots;
         if(length==1){
             for(Slot slot : slotsMap.values()){
                 freeSlots= new ArrayList<>();
@@ -310,7 +308,6 @@ public class ContainerField {
                         log.addPositions(begin, containerEnd);
                         log.setEndTime(craneToUse.getTimeCrane());
                         Main.updateCraneTime(craneToUse);
-//                        logs.add(log);
                         break;
                     } else {targetSlotIDs.clear();}
                 }
@@ -340,7 +337,6 @@ public class ContainerField {
                 log.setEndTime(craneToUse.getTimeCrane());
                 //if container moved we can stop for loop
                 containermoved = false;
-//                logs.add(log);
             }
         }
         return log;

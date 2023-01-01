@@ -103,7 +103,7 @@ public class Log {
 
     public void printLog() {
         System.out.println("CraneID:"+craneId+", ContainerID:"+containerId+", ContainerLength:"+containerLength+", PickupTime:"+pickUpTime+", EndTime: "+endTime+", PickupPositionX:"+
-                pickUpPositionX+", PickupPositionY:"+pickUpPositionY+", EndPositionX:"+endPositionX+", EndPositionY:"+endPositionY+", Interval: "+interval);
+                pickUpPositionX+", PickupPositionY:"+pickUpPositionY+", EndPositionX:"+endPositionX+", EndPositionY:"+endPositionY);
     }
 
     public void addPositions(Coordinate begin, Coordinate end) {

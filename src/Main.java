@@ -82,7 +82,6 @@ public class Main {
     private static boolean canReachTarget(Crane craneToUse, Slot endSlot, double[] sharedInterval,double extra) {
         //moeten hier ook midden van container hebben
         double endSlotX =endSlot.getX()+extra;
-        //if(endSlot.getX() <= craneToUse.getXmax() && endSlot.getX() >= craneToUse.getXmin()) {
         if(endSlotX <= craneToUse.getXmax() && endSlotX >= craneToUse.getXmin()) {
             // Move other crane out of shared interval to clear shared interval
             for (int i = 0; i < cranes.size(); i++) {
@@ -278,7 +277,6 @@ public class Main {
 
         for( Slot slot : slots.values()) {
             if(slot.getStack().size()>targetHeight){
-                System.out.println(slot.getId());
                 if(!containersToMove.contains(slot.getTopContainer())) containersToMove.add(slot.getTopContainer());
             }
         }
@@ -293,11 +291,8 @@ public class Main {
         }
         //start with the smallest containers and place as low as possible
         for(Integer containerId : containersLength1) {
-            Container container = containers.get(containerId);
             ArrayList<Integer> destinationSLotID = containerField.findBestTargetSlot1(targetHeight,containerId);
             if(!destinationSLotID.isEmpty()){
-                Slot beginSlot =getBeginSlot(slots,containerId);
-                Slot endSlot = slots.get(destinationSLotID.get(0));
                 Assignment assignment = new Assignment(containerId,destinationSLotID);
                 ArrayList<Assignment> assignments = new ArrayList<>();
                 assignments.add(assignment);
@@ -308,11 +303,8 @@ public class Main {
 
         //Containers of length 2 and place as low as possible
         for(Integer containerId : containersLength2) {
-            Container container = containers.get(containerId);
             ArrayList<Integer> destinationSlotID = containerField.findBestTargetSlot2(targetHeight,containerId);
             if(!destinationSlotID.isEmpty()){
-                Slot beginSlot =getBeginSlot(slots,containerId);
-                Slot endSlot = slots.get(destinationSlotID.get(0));
                 Assignment assignment = new Assignment(containerId,destinationSlotID);
                 ArrayList<Assignment> assignments = new ArrayList<>();
                 assignments.add(assignment);
@@ -322,18 +314,14 @@ public class Main {
         }
         //Containers of length 3 and place as low as possible
         for(Integer containerId : containersLength3) {
-            Container container = containers.get(containerId);
             ArrayList<Integer> destinationSlotID = containerField.findBestTargetSlot3(targetHeight,containerId);
             if(!destinationSlotID.isEmpty()){
-                Slot beginSlot =getBeginSlot(slots,containerId);
-                Slot endSlot = slots.get(destinationSlotID.get(0));
                 Assignment assignment = new Assignment(containerId,destinationSlotID);
                 ArrayList<Assignment> assignments = new ArrayList<>();
                 assignments.add(assignment);
                 logs.addAll(doAssignment(assignments,containerField,cranes));
             } else noPlaceFound.add(containerId);
         }
-
         return logs;
     }
 
@@ -420,110 +408,24 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
-//        InputData inputdata= readFile("src/input/terminal22_1_100_1_10.json");
-//        Target target = readFileTarget("src/input/terminal22_1_100_1_10target.json");
-
-//        InputData inputdata= readFile("src/input/1t/TerminalA_20_10_3_2_100.json");
-//        Target target = readFileTarget("src/input/1t/targetTerminalA_20_10_3_2_100.json");
-
-//        InputData inputdata= readFile("src/input/3t/TerminalA_20_10_3_2_160.json");
-//        Target target = readFileTarget("src/input/3t/targetTerminalA_20_10_3_2_160.json");
-
-//        InputData inputdata= readFile("src/input/5tUPDATE/TerminalB_20_10_3_2_160.json");
-//        Target target = readFileTarget("src/input/5tUPDATE/targetTerminalB_20_10_3_2_160UPDATE.json");
-//        InputData inputdata= readFile("src/input/6t/Terminal_10_10_3_1_100.json");
-//        Target target = readFileTarget("src/input/6t/targetTerminal_10_10_3_1_100.json");
-
-//        InputData inputdata= readFile("src/input/7t/TerminalC_10_10_3_2_80.json");
-//        Target target = readFileTarget("src/input/7t/targetTerminalC_10_10_3_2_80.json");
-
-//        InputData inputdata= readFile("src/input/8t/TerminalC_10_10_3_2_80.json");
-//        Target target = readFileTarget("src/input/8t/targetTerminalC_10_10_3_2_80.json");
-//        InputData inputdata= readFile("src/input/9t/TerminalC_10_10_3_2_100.json");
-//        Target target = readFileTarget("src/input/9t/targetTerminalC_10_10_3_2_100.json");
-
-//        InputData inputdata= readFile("src/input/10t/targetTerminalC_10_10_3_2_100.json");
-//        Target target = readFileTarget("src/input/10t/TerminalC_10_10_3_2_100.json");
-
-
-//        InputData inputdata = readFile("src/input/2mh/MH2Terminal_20_10_3_2_100.json");
-        InputData inputdata = readFile("src/input/4mh/MH2Terminal_20_10_3_2_160.json");
-
+        InputData inputdata= readFile(args[0]);
         inputdata.initAssignment();
         inputdata.modifyInputData();
-
         ContainerField containerField = new ContainerField(inputdata.getContainersMap(),inputdata.getSlots(),inputdata.getAssignments());
-
-//        target.initAssignments();
-//        target.modifyTargetData(containerField.getSlots(),containerField.getContainers());
-//        ArrayList<Assignment> assignments = target.getAssignments();
-
         cranes = new ArrayList<>(inputdata.getCranes());
         logs = new ArrayList<>();
 
-
-
         if(inputdata.getTargetheight()!=0){
             logs = reduceHeight(inputdata.getTargetheight(),containerField,cranes);
+        } else{
+            Target target = readFileTarget (args[1]) ;
+            target.initAssignments();
+            target.modifyTargetData(containerField.getSlots(),containerField.getContainers());
+            ArrayList<Assignment> assignments = target.getAssignments();
+            moveContainerField(assignments,containerField);
         }
-//        else moveContainerField(assignments,containerField);
-        int counter=0;
         for(Log log : logs) {
-            if(log.getInterval()) counter++;
             log.printLog();
         }
-
-//        for(Assignment assignment : assignments){
-//            Slot slot = containerField.getSlots().get(assignment.getSlotID());
-//            if(!slot.getStack().contains(assignment.getContainerID())){
-//                System.out.println("Container: "+assignment.getContainerID()+" Not at right place");
-//            }
-//        }
-        System.out.println(counter);
-        //GEWOON CHECK MAG WEG UITEINDELIJK
-        for( Slot slot : containerField.getSlots().values()) {
-            if(slot.getStack().size()> inputdata.getTargetheight()){
-                System.out.println(slot.getId());
-            }
-        }
-
-        //check if container is at only his sizes slots so container of 2 can only have 2 slots occupied
-        for(Container container : containerField.getContainers().values()) {
-            int numberOfPlace= 0;
-            for(Slot slot : containerField.getSlots().values()){
-                if(slot.getStack().contains(container.getId())) numberOfPlace++;
-            }
-            int lengthContainer= container.getLength();
-            if(numberOfPlace!=lengthContainer ){
-                System.out.println("Container: " + container.getId() + " found " + numberOfPlace+ " but length is " + container.getLength());
-            }
-        }
-        //if container slots are not adjeescent or on same y value
-        for(Container container : containerField.getContainers().values()){
-            ArrayList<Slot>  occupiedSlots = new ArrayList<>();
-
-            for(Slot slot : containerField.getSlots().values()){
-                if(slot.getStack().contains(container.getId())){
-                    occupiedSlots.add(slot);
-                }
-            }
-            if(occupiedSlots.size()==2){
-                if(occupiedSlots.get(0).getX()+1!=occupiedSlots.get(1).getX()
-                ||occupiedSlots.get(0).getY()!=occupiedSlots.get(1).getY()){
-                    System.out.println("Container: "+container.getId()+" of length"+container.getLength());
-                    System.out.println("is in slot("+occupiedSlots.get(0).getX()+","+occupiedSlots.get(0).getY()+") part2 is in slot("+occupiedSlots.get(0).getX()+","+occupiedSlots.get(0).getY()+")");
-                }
-            }
-            if(occupiedSlots.size()==3){
-                if(occupiedSlots.get(0).getX()+1!=occupiedSlots.get(1).getX() &&occupiedSlots.get(1).getX()+1!=occupiedSlots.get(2).getX()
-                        &&occupiedSlots.get(0).getY()!=occupiedSlots.get(1).getY()&&occupiedSlots.get(1).getY()!=occupiedSlots.get(2).getY()){
-                    System.out.println("Container: "+container.getId()+" of length"+container.getLength());
-                    System.out.println(" is in slot("+occupiedSlots.get(0).getX()+","+occupiedSlots.get(0).getY()+") part2 is in slot("+occupiedSlots.get(0).getX()+","+occupiedSlots.get(0).getY()+
-                            "part2 is in slot("+occupiedSlots.get(0).getX()+","+occupiedSlots.get(0).getY());
-                }
-            }
-        }
-
     }
 }
